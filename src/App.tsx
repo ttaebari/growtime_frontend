@@ -1,30 +1,67 @@
 import React from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import MainPage from "./pages/MainPage";
+import NotePage from "./pages/note/notePage";
 
-function App() {
-  // 로그인 버튼 클릭 시 백엔드에서 GitHub OAuth URL을 받아 리다이렉트
+import { userAPI } from './api/api';
+
+// 로그인 페이지 컴포넌트
+const LoginPage: React.FC = () => {
+  const [error, setError] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    // URL 파라미터에서 에러 확인
+    const urlParams = new URLSearchParams(window.location.search);
+    const errorCode = urlParams.get('error');
+    
+    if (errorCode) {
+      const errorMessages: { [key: string]: string } = {
+        'server_error': '서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.',
+        'no_auth_code': '인증 코드를 받지 못했습니다. 다시 로그인해주세요.',
+        'no_token': '액세스 토큰을 받지 못했습니다. 다시 로그인해주세요.',
+        'no_user_info': '사용자 정보를 받지 못했습니다. 다시 로그인해주세요.'
+      };
+      
+      setError(errorMessages[errorCode] || '알 수 없는 오류가 발생했습니다.');
+      
+      // 에러 파라미터 제거
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }, []);
+
   const handleLogin = async () => {
     try {
-      const res = await fetch("/login");
-      const data = await res.json();
-      if (data.authUrl) {
-        window.location.href = data.authUrl;
+      const response = await userAPI.getLoginUrl();
+      if (response.data.authUrl) {
+        window.location.href = response.data.authUrl;
       } else {
-        alert("로그인 URL을 가져올 수 없습니다.");
+        setError("로그인 URL을 가져올 수 없습니다.");
       }
-    } catch (e) {
-      alert("로그인 중 오류가 발생했습니다.");
+    } catch (e: any) {
+      setError("로그인 중 오류가 발생했습니다.");
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-400 to-purple-500">
-      <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full text-center">
-        <div className="text-3xl font-bold mb-2 text-gray-800 flex items-center justify-center gap-2">
+    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-indigo-400 to-purple-500">
+      <div className="p-8 w-full max-w-md text-center bg-white rounded-2xl shadow-2xl">
+        <div className="flex gap-2 justify-center items-center mb-2 text-3xl font-bold text-gray-800">
           <span role="img" aria-label="seedling">🌱</span> GrowTime
         </div>
-        <div className="text-gray-600 mb-6">산업기능요원 복무 관리 시스템</div>
+        <div className="mb-6 text-gray-600">산업기능요원 복무 관리 시스템</div>
+        
+        {/* 에러 메시지 표시 */}
+        {error && (
+          <div className="p-3 mb-4 text-red-700 bg-red-100 rounded-lg border border-red-400">
+            <div className="flex gap-2 items-center">
+              <span className="text-lg">⚠️</span>
+              <span>{error}</span>
+            </div>
+          </div>
+        )}
+        
         <button
-          className="flex items-center justify-center gap-2 w-full py-3 mb-4 bg-gray-900 text-white rounded-lg font-semibold hover:bg-gray-800 transition"
+          className="flex gap-2 justify-center items-center py-3 mb-4 w-full font-semibold text-white bg-gray-900 rounded-lg transition hover:bg-gray-800"
           onClick={handleLogin}
         >
           <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -32,11 +69,24 @@ function App() {
           </svg>
           GitHub로 로그인
         </button>
-        <div className="text-gray-500 text-sm mb-2">
+        <div className="mb-2 text-sm text-gray-500">
           산업기능요원 복무기간을 관리하고 회고를 작성할 수 있습니다.
         </div>
       </div>
     </div>
+  );
+};
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/main" element={<MainPage />} />
+        <Route path="/note" element={<NotePage />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Router>
   );
 }
 
