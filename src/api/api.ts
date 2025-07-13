@@ -49,21 +49,35 @@ export const userAPI = {
     api.post(`/api/user/${githubId}/service-dates?entryDate=${entryDate}&dischargeDate=${dischargeDate}`),
 };
 
-// 회고 관련 API (향후 확장용)
+// 회고 관련 API
 export const noteAPI = {
-  // 회고 목록 가져오기
-  getNotes: (githubId: string) => api.get(`/api/notes/${githubId}`),
+  // 회고 목록 가져오기 (페이징)
+  getNotes: (githubId: string, page: number = 0, size: number = 10) => 
+    api.get(`/api/notes/${githubId}?page=${page}&size=${size}`),
+  
+  // 회고 상세 조회
+  getNote: (githubId: string, noteId: string) => 
+    api.get(`/api/notes/${githubId}/${noteId}`),
   
   // 회고 작성
   createNote: (githubId: string, data: { title: string; content: string }) => 
     api.post(`/api/notes/${githubId}`, data),
   
   // 회고 수정
-  updateNote: (noteId: string, data: { title: string; content: string }) => 
-    api.put(`/api/notes/${noteId}`, data),
+  updateNote: (githubId: string, noteId: string, data: { title: string; content: string }) => 
+    api.put(`/api/notes/${githubId}/${noteId}`, data),
   
   // 회고 삭제
-  deleteNote: (noteId: string) => api.delete(`/api/notes/${noteId}`),
+  deleteNote: (githubId: string, noteId: string) => 
+    api.delete(`/api/notes/${githubId}/${noteId}`),
+  
+  // 회고 검색
+  searchNotes: (githubId: string, keyword: string) => 
+    api.get(`/api/notes/${githubId}/search?keyword=${encodeURIComponent(keyword)}`),
+  
+  // 회고 개수 조회
+  getNoteCount: (githubId: string) => 
+    api.get(`/api/notes/${githubId}/count`),
 };
 
 
