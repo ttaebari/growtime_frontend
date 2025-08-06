@@ -1,12 +1,12 @@
-import React from "react";
+import { ReactElement } from "react";
 import MainPage from "./pages/MainPage";
 import NotePage from "./pages/note/notePage";
-import LoginPage from "./pages/note/loginPage";
+import LoginPage from "./pages/loginPage";
 
 // 라우트 타입 정의
 export interface RouteConfig {
     path: string;
-    element: React.ReactElement;
+    element: ReactElement;
 }
 
 // 라우트 설정
