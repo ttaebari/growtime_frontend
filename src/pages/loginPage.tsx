@@ -1,11 +1,11 @@
-import React from "react";
+import { useState, useEffect, FC } from "react";
 import { userAPI } from "../api/api";
 
 // 로그인 페이지 컴포넌트
-const LoginPage: React.FC = () => {
-    const [error, setError] = React.useState<string | null>(null);
+const LoginPage: FC = () => {
+    const [error, setError] = useState<string | null>(null);
 
-    React.useEffect(() => {
+    useEffect(() => {
         // URL 파라미터에서 에러 확인
         const urlParams = new URLSearchParams(window.location.search);
         const errorCode = urlParams.get("error");

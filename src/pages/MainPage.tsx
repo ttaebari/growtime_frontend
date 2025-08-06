@@ -2,19 +2,16 @@ import { useState, useEffect, FC } from "react";
 import DDayDisplay from "../components/DDayDisplay";
 import ServiceDateForm from "../components/ServiceDateForm";
 import MenuButton from "../components/MenuButton";
-import NoteList from "../components/NoteList";
-import NotePage from "./note/notePage";
-import { Note } from "../types/note/types";
 import { User, DDayInfo } from "../types/user/types";
+import { useNavigate } from "react-router-dom";
 
 const MainPage: FC = () => {
+    const navigate = useNavigate();
     const [user, setUser] = useState<User | null>(null);
     const [dDayInfo, setDDayInfo] = useState<DDayInfo | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
     const [error, setError] = useState("");
-    const [selectedNote, setSelectedNote] = useState<Note | null>(null);
-    const [isNoteMode, setIsNoteMode] = useState(false);
 
     // URL에서 GitHub ID 추출 (실제로는 로그인 후 세션에서 가져와야 함)
     const getGitHubId = () => {
@@ -103,48 +100,10 @@ const MainPage: FC = () => {
             id: "note",
             label: "회고 작성",
             icon: "📝",
-            onClick: () => setIsNoteMode(true),
+            onClick: () => navigate("/note?githubId=" + getGitHubId()),
         },
         // 향후 더 많은 메뉴 아이템을 여기에 추가할 수 있습니다
     ];
-
-    // 회고 선택 처리
-    const handleNoteSelect = (note: Note) => {
-        setSelectedNote(note);
-        setIsNoteMode(true);
-    };
-
-    // 새 회고 작성
-    const handleNewNote = () => {
-        setSelectedNote(null);
-        setIsNoteMode(true);
-    };
-
-    // 회고 저장 완료
-    const handleNoteSave = () => {
-        setIsNoteMode(false);
-        setSelectedNote(null);
-    };
-
-    // 회고 취소
-    const handleNoteCancel = () => {
-        setIsNoteMode(false);
-        setSelectedNote(null);
-    };
-
-    // 회고 모드일 때
-    if (isNoteMode) {
-        return (
-            <div className="py-8 min-h-screen bg-gradient-to-br from-indigo-400 to-purple-500">
-                <NotePage
-                    githubId={getGitHubId()}
-                    selectedNote={selectedNote}
-                    onSave={handleNoteSave}
-                    onCancel={handleNoteCancel}
-                />
-            </div>
-        );
-    }
 
     if (isLoading) {
         return (
@@ -198,14 +157,9 @@ const MainPage: FC = () => {
                 </div>
 
                 {/* 메인 콘텐츠 */}
-                <div className="flex gap-6 justify-center items-start">
-                    {/* 왼쪽: 회고 목록 */}
-                    {dDayInfo && (
-                        <NoteList githubId={getGitHubId()} onNoteSelect={handleNoteSelect} onNewNote={handleNewNote} />
-                    )}
-
-                    {/* 오른쪽: D-day 또는 복무 날짜 입력 */}
-                    <div className="flex-1 max-w-2xl">
+                <div className="flex justify-center items-start">
+                    {/* D-day 또는 복무 날짜 입력 */}
+                    <div className="w-full max-w-2xl">
                         {dDayInfo ? (
                             <DDayDisplay dDayInfo={dDayInfo} />
                         ) : (
