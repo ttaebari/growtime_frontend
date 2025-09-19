@@ -1,7 +1,7 @@
 import { useState, useEffect, FC } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { noteAPI } from "../../api/api";
-import { Note } from "../../types/note/types";
+import { Note, DevelopType, DEVELOP_TYPE_LABELS, DEVELOP_TYPE_COLORS } from "../../types/note/types";
 
 interface NotePageProps {
     githubId?: string;
@@ -30,6 +30,9 @@ const NotePage: FC<NotePageProps> = ({ githubId, selectedNote: initialNote, onSa
     const [content, setContent] = useState("");
     const [isSaving, setIsSaving] = useState(false);
     const [saveError, setSaveError] = useState<string | null>(null);
+
+    // 개발 타입 상태
+    const [developType, setDevelopType] = useState<DevelopType>(DevelopType.FRONTEND);
 
     // URL에서 githubId 가져오기
     const getGitHubId = () => {
@@ -73,6 +76,7 @@ const NotePage: FC<NotePageProps> = ({ githubId, selectedNote: initialNote, onSa
         setIsCreating(false);
         setTitle(note.title);
         setContent(note.content);
+        setDevelopType(note.developType);
         setSaveError(null);
     };
 
@@ -83,6 +87,7 @@ const NotePage: FC<NotePageProps> = ({ githubId, selectedNote: initialNote, onSa
         setIsCreating(true);
         setTitle("");
         setContent("");
+        setDevelopType(DevelopType.FRONTEND);
         setSaveError(null);
     };
 
@@ -93,6 +98,7 @@ const NotePage: FC<NotePageProps> = ({ githubId, selectedNote: initialNote, onSa
             setIsCreating(false);
             setTitle(selectedNote.title);
             setContent(selectedNote.content);
+            setDevelopType(selectedNote.developType);
             setSaveError(null);
         }
     };
@@ -105,9 +111,11 @@ const NotePage: FC<NotePageProps> = ({ githubId, selectedNote: initialNote, onSa
         if (selectedNote) {
             setTitle(selectedNote.title);
             setContent(selectedNote.content);
+            setDevelopType(selectedNote.developType);
         } else {
             setTitle("");
             setContent("");
+            setDevelopType(DevelopType.FRONTEND);
         }
     };
 
@@ -129,6 +137,7 @@ const NotePage: FC<NotePageProps> = ({ githubId, selectedNote: initialNote, onSa
                 const response = await noteAPI.createNote(currentGitHubId, {
                     title: title.trim(),
                     content: content.trim(),
+                    developType: developType,
                 });
 
                 // 목록 새로고침
@@ -143,13 +152,19 @@ const NotePage: FC<NotePageProps> = ({ githubId, selectedNote: initialNote, onSa
                 await noteAPI.updateNote(currentGitHubId, selectedNote.id.toString(), {
                     title: title.trim(),
                     content: content.trim(),
+                    developType: developType,
                 });
 
                 // 목록 새로고침
                 await loadNotes();
 
                 // 수정된 회고 정보 업데이트
-                const updatedNote = { ...selectedNote, title: title.trim(), content: content.trim() };
+                const updatedNote = {
+                    ...selectedNote,
+                    title: title.trim(),
+                    content: content.trim(),
+                    developType: developType,
+                };
                 setSelectedNote(updatedNote);
                 setIsEditing(false);
             }
@@ -207,6 +222,7 @@ const NotePage: FC<NotePageProps> = ({ githubId, selectedNote: initialNote, onSa
             setSelectedNote(initialNote);
             setTitle(initialNote.title);
             setContent(initialNote.content);
+            setDevelopType(initialNote.developType);
         }
     }, [initialNote]);
 
@@ -314,7 +330,16 @@ const NotePage: FC<NotePageProps> = ({ githubId, selectedNote: initialNote, onSa
                                                 : "border border-gray-200"
                                         }`}
                                     >
-                                        <h3 className="mb-1 font-medium text-gray-800 line-clamp-1">{note.title}</h3>
+                                        <div className="flex justify-between items-start mb-1">
+                                            <h3 className="font-medium text-gray-800 line-clamp-1">{note.title}</h3>
+                                            <span
+                                                className={`px-2 py-1 text-xs rounded-full ${
+                                                    DEVELOP_TYPE_COLORS[note.developType]
+                                                }`}
+                                            >
+                                                {DEVELOP_TYPE_LABELS[note.developType]}
+                                            </span>
+                                        </div>
                                         <p className="mb-2 text-sm text-gray-600 line-clamp-2">
                                             {getContentPreview(note.content)}
                                         </p>
@@ -375,6 +400,27 @@ const NotePage: FC<NotePageProps> = ({ githubId, selectedNote: initialNote, onSa
                                     />
                                 </div>
 
+                                <div className="mb-4">
+                                    <label
+                                        htmlFor="developType"
+                                        className="block mb-2 text-sm font-medium text-gray-700"
+                                    >
+                                        개발 타입
+                                    </label>
+                                    <select
+                                        id="developType"
+                                        value={developType}
+                                        onChange={(e) => setDevelopType(e.target.value as DevelopType)}
+                                        className="px-4 py-3 w-full rounded-lg border border-gray-300 transition-all focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    >
+                                        {Object.values(DevelopType).map((type) => (
+                                            <option key={type} value={type}>
+                                                {DEVELOP_TYPE_LABELS[type]}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+
                                 <div className="flex flex-col flex-1 mb-4">
                                     <label htmlFor="content" className="block mb-2 text-sm font-medium text-gray-700">
                                         내용
@@ -419,7 +465,16 @@ const NotePage: FC<NotePageProps> = ({ githubId, selectedNote: initialNote, onSa
                         <div className="flex flex-col p-6 h-full">
                             <div className="flex justify-between items-start mb-6">
                                 <div className="flex-1">
-                                    <h2 className="mb-2 text-2xl font-bold text-gray-800">{selectedNote.title}</h2>
+                                    <div className="flex gap-3 items-center mb-2">
+                                        <h2 className="text-2xl font-bold text-gray-800">{selectedNote.title}</h2>
+                                        <span
+                                            className={`px-3 py-1 text-sm rounded-full ${
+                                                DEVELOP_TYPE_COLORS[selectedNote.developType]
+                                            }`}
+                                        >
+                                            {DEVELOP_TYPE_LABELS[selectedNote.developType]}
+                                        </span>
+                                    </div>
                                     <div className="text-sm text-gray-500">
                                         작성일: {formatDate(selectedNote.createdAt)}
                                         {selectedNote.updatedAt !== selectedNote.createdAt && (

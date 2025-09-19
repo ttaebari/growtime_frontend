@@ -1,4 +1,5 @@
 import axios from "axios";
+import { CreateNoteRequest, UpdateNoteRequest } from "../types/note/types";
 
 // axios 인스턴스 생성
 const api = axios.create({
@@ -59,11 +60,10 @@ export const noteAPI = {
     getNote: (githubId: string, noteId: string) => api.get(`/api/notes/${githubId}/${noteId}`),
 
     // 회고 작성
-    createNote: (githubId: string, data: { title: string; content: string }) =>
-        api.post(`/api/notes/${githubId}`, data),
+    createNote: (githubId: string, data: CreateNoteRequest) => api.post(`/api/notes/${githubId}`, data),
 
     // 회고 수정
-    updateNote: (githubId: string, noteId: string, data: { title: string; content: string }) =>
+    updateNote: (githubId: string, noteId: string, data: UpdateNoteRequest) =>
         api.put(`/api/notes/${githubId}/${noteId}`, data),
 
     // 회고 삭제
