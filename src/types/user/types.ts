@@ -10,7 +10,7 @@ export type User = {
 };
 
 export type DDayInfo = {
-    dDay: number;
+    dDayCount: number;
     serviceDays: number;
     totalServiceDays: number;
     entryDate: string;

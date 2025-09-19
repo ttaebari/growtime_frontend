@@ -1,7 +1,7 @@
 import React from "react";
 
 interface DDayInfo {
-    dDay: number;
+    ddayCount: number;
     serviceDays: number;
     totalServiceDays: number;
     entryDate: string;
@@ -45,11 +45,11 @@ const DDayDisplay: React.FC<DDayDisplayProps> = ({ dDayInfo }) => {
         <div className="p-8 w-full max-w-2xl bg-white rounded-2xl shadow-xl">
             {/* D-Day 메인 표시 */}
             <div className="mb-8 text-center">
-                <div className={`text-6xl font-bold mb-2 ${getDDayColor(dDayInfo.dDay)}`}>
-                    {getDDayText(dDayInfo.dDay)}
+                <div className={`text-6xl font-bold mb-2 ${getDDayColor(dDayInfo.ddayCount)}`}>
+                    {getDDayText(dDayInfo.ddayCount)}
                 </div>
                 <div className="text-lg text-gray-600">
-                    {dDayInfo.dDay > 0 ? "제대까지 남은 일수" : "제대 후 경과일"}
+                    {dDayInfo.ddayCount > 0 ? "제대까지 남은 일수" : "제대 후 경과일"}
                 </div>
             </div>
 
