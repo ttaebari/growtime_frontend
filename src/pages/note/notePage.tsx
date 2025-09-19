@@ -178,6 +178,9 @@ const NotePage: FC<NotePageProps> = ({ githubId, selectedNote: initialNote, onSa
     // 날짜 포맷팅
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
+        if (date.toString() === "Invalid Date") {
+            return "-";
+        }
         return date.toLocaleDateString("ko-KR", {
             year: "numeric",
             month: "short",
