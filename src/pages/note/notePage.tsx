@@ -211,14 +211,14 @@ const NotePage: FC<NotePageProps> = ({ githubId, selectedNote: initialNote, onSa
     }, [initialNote]);
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-indigo-400 to-purple-500">
+        <div className="min-h-screen bg-white">
             {/* 헤더 */}
-            <div className="border-b backdrop-blur-sm bg-white/10 border-white/20">
+            <div className="bg-white border-b border-gray-200">
                 <div className="container px-4 py-4 mx-auto">
                     <div className="flex justify-between items-center">
                         <button
                             onClick={handleBack}
-                            className="flex gap-2 items-center text-white transition-colors hover:text-gray-200"
+                            className="flex gap-2 items-center text-gray-700 transition-colors hover:text-gray-900"
                         >
                             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path
@@ -231,7 +231,7 @@ const NotePage: FC<NotePageProps> = ({ githubId, selectedNote: initialNote, onSa
                             <span className="font-medium">뒤로가기</span>
                         </button>
 
-                        <h1 className="flex gap-2 items-center text-2xl font-bold text-white">
+                        <h1 className="flex gap-2 items-center text-2xl font-bold text-gray-800">
                             <span role="img" aria-label="notebook">
                                 📝
                             </span>
@@ -240,7 +240,7 @@ const NotePage: FC<NotePageProps> = ({ githubId, selectedNote: initialNote, onSa
 
                         <button
                             onClick={handleNewNote}
-                            className="flex gap-2 items-center px-4 py-2 text-white rounded-lg backdrop-blur-sm transition-colors bg-white/20 hover:bg-white/30"
+                            className="flex gap-2 items-center px-4 py-2 text-white bg-blue-500 rounded-lg transition-colors hover:bg-blue-600"
                         >
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -252,9 +252,9 @@ const NotePage: FC<NotePageProps> = ({ githubId, selectedNote: initialNote, onSa
             </div>
 
             {/* 메인 콘텐츠 */}
-            <div className="container flex gap-6 px-4 py-6 mx-auto" style={{ height: "calc(100vh - 120px)" }}>
+            <div className="container flex gap-6 px-4 py-6 mx-auto bg-white" style={{ height: "calc(100vh - 120px)" }}>
                 {/* 왼쪽: 회고 목록 */}
-                <div className="flex flex-col w-80 rounded-xl border shadow-xl backdrop-blur-sm bg-white/95 border-white/20">
+                <div className="flex flex-col w-80 bg-white rounded-xl border border-gray-200 shadow-xl">
                     {/* 검색 헤더 */}
                     <div className="p-4 border-b border-gray-200">
                         <h2 className="flex gap-2 items-center mb-3 text-lg font-bold text-gray-800">
@@ -327,7 +327,7 @@ const NotePage: FC<NotePageProps> = ({ githubId, selectedNote: initialNote, onSa
                 </div>
 
                 {/* 오른쪽: 회고 상세/편집 */}
-                <div className="flex flex-col flex-1 rounded-xl border shadow-xl backdrop-blur-sm bg-white/95 border-white/20">
+                <div className="flex flex-col flex-1 bg-white rounded-xl border border-gray-200 shadow-xl">
                     {isCreating || isEditing ? (
                         // 작성/편집 폼
                         <div className="flex flex-col p-6 h-full">
