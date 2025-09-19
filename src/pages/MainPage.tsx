@@ -107,7 +107,7 @@ const MainPage: FC = () => {
 
     if (isLoading) {
         return (
-            <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-indigo-400 to-purple-500">
+            <div className="flex justify-center items-center min-h-screen bg-white">
                 <div className="p-8 text-center bg-white rounded-2xl shadow-xl">
                     <div className="mx-auto mb-4 w-12 h-12 rounded-full border-b-2 border-blue-600 animate-spin"></div>
                     <div className="text-gray-600">로딩 중...</div>
@@ -118,7 +118,7 @@ const MainPage: FC = () => {
 
     if (error) {
         return (
-            <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-indigo-400 to-purple-500">
+            <div className="flex justify-center items-center min-h-screen bg-white">
                 <div className="p-8 w-full max-w-md text-center bg-white rounded-2xl shadow-xl">
                     <div className="mb-4 text-6xl text-red-500">⚠️</div>
                     <h2 className="mb-2 text-xl font-bold text-gray-800">오류 발생</h2>
@@ -135,21 +135,21 @@ const MainPage: FC = () => {
     }
 
     return (
-        <div className="py-8 min-h-screen bg-gradient-to-br from-indigo-400 to-purple-500">
+        <div className="py-8 min-h-screen bg-white">
             {/* 메뉴 버튼 */}
             <MenuButton items={menuItems} />
 
             <div className="container px-4 mx-auto">
                 {/* 헤더 */}
                 <div className="mb-8 text-center">
-                    <h1 className="flex gap-2 justify-center items-center mb-2 text-4xl font-bold text-white">
+                    <h1 className="flex gap-2 justify-center items-center mb-2 text-4xl font-bold text-gray-800">
                         <span role="img" aria-label="seedling">
                             🌱
                         </span>{" "}
                         GrowTime
                     </h1>
                     {user && (
-                        <div className="flex gap-3 justify-center items-center text-white">
+                        <div className="flex gap-3 justify-center items-center text-gray-700">
                             <img src={user.avatarUrl} alt={user.name || user.login} className="w-8 h-8 rounded-full" />
                             <span className="font-medium">{user.name || user.login}</span>
                         </div>
@@ -169,7 +169,7 @@ const MainPage: FC = () => {
                 </div>
 
                 {/* 하단 안내 */}
-                <div className="mt-8 text-sm text-center text-white/80">
+                <div className="mt-8 text-sm text-center text-gray-600">
                     <p>산업기능요원 복무 관리 시스템</p>
                 </div>
             </div>

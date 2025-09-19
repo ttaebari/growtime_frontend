@@ -39,7 +39,7 @@ const LoginPage: FC = () => {
     };
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-indigo-400 to-purple-500">
+        <div className="flex justify-center items-center min-h-screen bg-white">
             <div className="p-8 w-full max-w-md text-center bg-white rounded-2xl shadow-2xl">
                 <div className="flex gap-2 justify-center items-center mb-2 text-3xl font-bold text-gray-800">
                     <span role="img" aria-label="seedling">
