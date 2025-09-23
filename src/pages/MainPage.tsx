@@ -4,6 +4,8 @@ import ServiceDateForm from "../components/ServiceDateForm";
 import MenuButton from "../components/MenuButton";
 import { User, DDayInfo } from "../types/user/types";
 import { useNavigate } from "react-router-dom";
+import MainPageError from "../components/MainPageError";
+import MainPageLoading from "../components/MainPageLoading";
 
 const MainPage: FC = () => {
     const navigate = useNavigate();
@@ -106,32 +108,11 @@ const MainPage: FC = () => {
     ];
 
     if (isLoading) {
-        return (
-            <div className="flex justify-center items-center min-h-screen bg-white">
-                <div className="p-8 text-center bg-white rounded-2xl shadow-xl">
-                    <div className="mx-auto mb-4 w-12 h-12 rounded-full border-b-2 border-blue-600 animate-spin"></div>
-                    <div className="text-gray-600">로딩 중...</div>
-                </div>
-            </div>
-        );
+        return <MainPageLoading />;
     }
 
     if (error) {
-        return (
-            <div className="flex justify-center items-center min-h-screen bg-white">
-                <div className="p-8 w-full max-w-md text-center bg-white rounded-2xl shadow-xl">
-                    <div className="mb-4 text-6xl text-red-500">⚠️</div>
-                    <h2 className="mb-2 text-xl font-bold text-gray-800">오류 발생</h2>
-                    <p className="mb-4 text-gray-600">{error}</p>
-                    <button
-                        onClick={() => window.location.reload()}
-                        className="px-6 py-2 text-white bg-blue-500 rounded-lg transition hover:bg-blue-600"
-                    >
-                        다시 시도
-                    </button>
-                </div>
-            </div>
-        );
+        return <MainPageError message={error} onRetry={() => window.location.reload()} />;
     }
 
     return (
