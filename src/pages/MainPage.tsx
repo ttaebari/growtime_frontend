@@ -1,11 +1,11 @@
 import { useState, useEffect, FC } from "react";
-import DDayDisplay from "../components/DDayDisplay";
-import ServiceDateForm from "../components/ServiceDateForm";
-import MenuButton from "../components/MenuButton";
-import { User, DDayInfo } from "../types/user/types";
+import DDayDisplay from "@/components/DDayDisplay";
+import ServiceDateForm from "@/components/ServiceDateForm";
+import MenuButton from "@/components/MenuButton";
+import { User, DDayInfo } from "@/types/user/types";
 import { useNavigate } from "react-router-dom";
-import MainPageError from "../components/MainPageError";
-import MainPageLoading from "../components/MainPageLoading";
+import MainPageError from "@/components/MainPageError";
+import MainPageLoading from "@/components/MainPageLoading";
 
 const MainPage: FC = () => {
     const navigate = useNavigate();

@@ -1,5 +1,5 @@
 import { useState, useEffect, FC } from "react";
-import { userAPI } from "../api/api";
+import { userAPI } from "@/api/api";
 
 // 로그인 페이지 컴포넌트
 const LoginPage: FC = () => {

@@ -1,31 +1,28 @@
 {
     "compilerOptions": {
-        "target": "ES2020",
-        "useDefineForClassFields": true,
-        "lib": ["ES2020", "DOM", "DOM.Iterable"],
-        "module": "ESNext",
-        "skipLibCheck": true,
-
-        /* Bundler mode */
-        "moduleResolution": "bundler",
-        "allowImportingTsExtensions": true,
-        "resolveJsonModule": true,
-        "isolatedModules": true,
-        "noEmit": true,
-        "jsx": "react-jsx",
-
-        /* Linting */
-        "strict": true,
-        "noUnusedLocals": true,
-        "noUnusedParameters": true,
-        "noFallthroughCasesInSwitch": true,
-
-        /* Additional options */
-        "allowJs": true,
-        "esModuleInterop": true,
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["./src/*"]
+        },
+        "target": "es2017", // 'es3', 'es5', 'es2015', 'es2016', 'es2017','es2018', 'esnext' 가능
+        "module": "ESNext", //무슨 import 문법 쓸건지 'commonjs', 'amd', 'es2015', 'esnext'
+        "moduleResolution": "node",
+        "allowImportingTsExtensions": true, //.ts 파일 import 허용
         "allowSyntheticDefaultImports": true,
-        "forceConsistentCasingInFileNames": true
+        "allowJs": true, // js 파일들 ts에서 import해서 쓸 수 있는지
+        "checkJs": false, // 일반 js 파일에서도 에러체크 여부
+        "jsx": "react-jsx", // tsx 파일을 jsx로 어떻게 컴파일할 것인지 'preserve', 'react-native', 'react'
+        "declaration": true, //컴파일시 .d.ts 파일도 자동으로 함께생성 (현재쓰는 모든 타입이 정의된 파일)
+        "noEmit": true, //컴파일 된 출력 생성 X
+        "removeComments": true, //컴파일시 주석제거
+        "noImplicitAny": false, //any타입 금지 여부
+        "strict": true, //엄격한 타입 체크
+        "noUnusedLocals": false, //사용하지 않는 지역 변수 알림
+        "noUnusedParameters": false, //사용하지 않는 파라미터 알림,
+        "skipLibCheck": true,
+        "resolveJsonModule": true, // 타입스크립트에서 json 파일 import
+        "esModuleInterop": true //ES6 모듈 사양을 준수하여 CommonJS 불러오게
     },
-    "include": ["src"],
-    "references": [{ "path": "./tsconfig.node.json" }]
+    "include": ["src/**/*", "src/layout", "src/units"],
+    "exclude": ["node_modules", "**/*.spec.ts"]
 }

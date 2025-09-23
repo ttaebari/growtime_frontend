@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CreateNoteRequest, UpdateNoteRequest } from "../types/note/types";
+import { CreateNoteRequest, UpdateNoteRequest } from "@/types/note/types";
 
 // axios 인스턴스 생성
 const api = axios.create({
