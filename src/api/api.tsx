@@ -3,7 +3,7 @@ import { CreateNoteRequest, UpdateNoteRequest } from "@/types/note/types";
 
 // axios 인스턴스 생성
 const api = axios.create({
-    baseURL: "http://localhost:8088",
+    baseURL: "http://localhost:8196",
     timeout: 10000,
     headers: {
         "Content-Type": "application/json",
