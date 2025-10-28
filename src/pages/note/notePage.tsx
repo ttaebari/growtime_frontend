@@ -23,6 +23,7 @@ const NotePage: FC<NotePageProps> = ({ githubId, selectedNote: initialNote, onSa
     const [loadingNotes, setLoadingNotes] = useState(true);
     const [notesError, setNotesError] = useState<string | null>(null);
     const [searchKeyword, setSearchKeyword] = useState("");
+    const [selectedFilter, setSelectedFilter] = useState<DevelopType | "ALL">("ALL");
 
     const [selectedNote, setSelectedNote] = useState<Note | null>(initialNote || null);
     const [isEditing, setIsEditing] = useState(false);
@@ -37,6 +38,13 @@ const NotePage: FC<NotePageProps> = ({ githubId, selectedNote: initialNote, onSa
 
     const getGitHubId = () => {
         return githubId || searchParams.get("githubId") || "";
+    };
+
+    const getFilteredNotes = () => {
+        if (selectedFilter === "ALL") {
+            return notes;
+        }
+        return notes.filter((note) => note.developType === selectedFilter);
     };
 
     const loadNotes = async (keyword?: string) => {
@@ -193,13 +201,15 @@ const NotePage: FC<NotePageProps> = ({ githubId, selectedNote: initialNote, onSa
 
             <div className="container flex gap-6 px-4 py-6 mx-auto bg-white" style={{ height: "calc(100vh - 120px)" }}>
                 <NoteListPanel
-                    notes={notes}
+                    notes={getFilteredNotes()}
                     loading={loadingNotes}
                     error={notesError}
                     selectedNoteId={selectedNote?.id ?? null}
                     searchKeyword={searchKeyword}
+                    selectedFilter={selectedFilter}
                     onSearchKeywordChange={setSearchKeyword}
                     onSearch={(keyword) => loadNotes(keyword)}
+                    onFilterChange={setSelectedFilter}
                     onRetry={() => loadNotes()}
                     onSelectNote={handleNoteClick}
                     onNewNote={handleNewNote}

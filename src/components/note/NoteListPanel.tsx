@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Note, DEVELOP_TYPE_COLORS, DEVELOP_TYPE_LABELS } from "@/types/note/types";
+import { Note, DevelopType, DEVELOP_TYPE_COLORS, DEVELOP_TYPE_LABELS } from "@/types/note/types";
 
 type NoteListPanelProps = {
     notes: Note[];
@@ -7,8 +7,10 @@ type NoteListPanelProps = {
     error: string | null;
     selectedNoteId: number | null;
     searchKeyword: string;
+    selectedFilter: DevelopType | "ALL";
     onSearchKeywordChange: (value: string) => void;
     onSearch: (keyword: string) => void;
+    onFilterChange: (filter: DevelopType | "ALL") => void;
     onRetry: () => void;
     onSelectNote: (note: Note) => void;
     onNewNote: () => void;
@@ -20,8 +22,10 @@ const NoteListPanel: FC<NoteListPanelProps> = ({
     error,
     selectedNoteId,
     searchKeyword,
+    selectedFilter,
     onSearchKeywordChange,
     onSearch,
+    onFilterChange,
     onRetry,
     onSelectNote,
     onNewNote,
@@ -49,12 +53,33 @@ const NoteListPanel: FC<NoteListPanelProps> = ({
     return (
         <div className="flex flex-col w-80 bg-white rounded-xl border border-gray-200 shadow-xl">
             <div className="p-4 border-b border-gray-200">
-                <h2 className="flex gap-2 items-center mb-3 text-lg font-bold text-gray-800">
-                    <span role="img" aria-label="list">
-                        📋
-                    </span>
-                    회고 목록
-                </h2>
+                <div className="flex justify-between items-center mb-3">
+                    <h2 className="flex gap-2 items-center text-lg font-bold text-gray-800">
+                        <span role="img" aria-label="list">
+                            📋
+                        </span>
+                        회고 목록
+                    </h2>
+
+                    <div className="flex gap-2 items-center">
+                        <label htmlFor="filter-select" className="text-sm font-medium text-gray-700">
+                            필터:
+                        </label>
+                        <select
+                            id="filter-select"
+                            value={selectedFilter}
+                            onChange={(e) => onFilterChange(e.target.value as DevelopType | "ALL")}
+                            className="px-3 py-2 text-sm bg-white rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        >
+                            <option value="ALL">전체</option>
+                            {Object.values(DevelopType).map((type) => (
+                                <option key={type} value={type}>
+                                    {DEVELOP_TYPE_LABELS[type]}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
 
                 <form onSubmit={handleSubmit} className="flex gap-2">
                     <input
