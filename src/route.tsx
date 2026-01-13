@@ -2,6 +2,7 @@ import { ReactElement } from "react";
 import MainPage from "./pages/MainPage";
 import NotePage from "./pages/note/notePage";
 import LoginPage from "./pages/loginPage";
+import Callback from "./pages/Callback";
 
 // 라우트 타입 정의
 export interface RouteConfig {
@@ -22,5 +23,9 @@ export const routes: RouteConfig[] = [
     {
         path: "/note",
         element: <NotePage />,
+    },
+    {
+        path: "/login/oauth/callback",
+        element: <Callback />,
     },
 ];

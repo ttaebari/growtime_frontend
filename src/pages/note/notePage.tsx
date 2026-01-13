@@ -1,6 +1,7 @@
 import { useState, useEffect, FC } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { NoteService } from "@/services/noteService";
+import { AuthService } from "@/services/authService";
 import { Note, DevelopType } from "@/types/note/types";
 import NotePageHeader from "@/components/note/NotePageHeader";
 import NoteListPanel from "@/components/note/NoteListPanel";
@@ -17,7 +18,6 @@ interface NotePageProps {
 
 const NotePage: FC<NotePageProps> = ({ githubId, selectedNote: initialNote, onSave, onCancel }) => {
     const navigate = useNavigate();
-    const [searchParams] = useSearchParams();
 
     const [notes, setNotes] = useState<Note[]>([]);
     const [loadingNotes, setLoadingNotes] = useState(true);
@@ -37,7 +37,7 @@ const NotePage: FC<NotePageProps> = ({ githubId, selectedNote: initialNote, onSa
     const [developType, setDevelopType] = useState<DevelopType>(DevelopType.FRONTEND);
 
     const getGitHubId = () => {
-        return githubId || searchParams.get("githubId") || "";
+        return githubId || AuthService.getGithubId() || "";
     };
 
     const getFilteredNotes = () => {
@@ -174,8 +174,7 @@ const NotePage: FC<NotePageProps> = ({ githubId, selectedNote: initialNote, onSa
         if (onCancel) {
             onCancel();
         } else {
-            const currentGitHubId = getGitHubId();
-            navigate("/main?githubId=" + currentGitHubId);
+            navigate("/main");
         }
     };
 

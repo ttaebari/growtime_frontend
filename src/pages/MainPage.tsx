@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import MainPageError from "@/components/MainPageError";
 import MainPageLoading from "@/components/MainPageLoading";
 
+import { AuthService } from "@/services/authService";
+
 const MainPage: FC = () => {
     const navigate = useNavigate();
     const [user, setUser] = useState<User | null>(null);
@@ -15,16 +17,15 @@ const MainPage: FC = () => {
     const [isSaving, setIsSaving] = useState(false);
     const [error, setError] = useState("");
 
-    // URL에서 GitHub ID 추출 (실제로는 로그인 후 세션에서 가져와야 함)
-    const getGitHubId = () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get("githubId") || "test-user"; // 임시로 테스트용
-    };
-
     // 사용자 정보 로드
     const loadUserInfo = async () => {
         try {
-            const githubId = getGitHubId();
+            const githubId = AuthService.getGithubId();
+            if (!githubId) {
+                navigate("/");
+                return;
+            }
+
             const response = await fetch(`/api/user/${githubId}`);
 
             if (response.ok) {
@@ -67,7 +68,7 @@ const MainPage: FC = () => {
         setError("");
 
         try {
-            const githubId = getGitHubId();
+            const githubId = AuthService.getGithubId();
             const params = new URLSearchParams({
                 entryDate,
                 dischargeDate,
@@ -102,7 +103,7 @@ const MainPage: FC = () => {
             id: "note",
             label: "회고 작성",
             icon: "📝",
-            onClick: () => navigate("/note?githubId=" + getGitHubId()),
+            onClick: () => navigate("/note"),
         },
         // 향후 더 많은 메뉴 아이템을 여기에 추가할 수 있습니다
     ];
@@ -133,6 +134,12 @@ const MainPage: FC = () => {
                         <div className="flex gap-3 justify-center items-center text-gray-700">
                             <img src={user.avatarUrl} alt={user.name || user.login} className="w-8 h-8 rounded-full" />
                             <span className="font-medium">{user.name || user.login}</span>
+                            <button
+                                onClick={AuthService.logout}
+                                className="px-3 py-1 text-sm text-red-500 bg-white rounded-md border border-red-200 shadow-sm transition hover:bg-red-50"
+                            >
+                                로그아웃
+                            </button>
                         </div>
                     )}
                 </div>

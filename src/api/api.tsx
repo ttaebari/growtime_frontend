@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Cookies } from "react-cookie";
 
 // axios 인스턴스 생성
 const api = axios.create({
@@ -12,6 +13,13 @@ const api = axios.create({
 // 요청 인터셉터 (요청 전에 실행)
 api.interceptors.request.use(
     (config: any) => {
+        const cookies = new Cookies();
+        const accessToken = cookies.get("accessToken");
+
+        if (accessToken) {
+            config.headers.Authorization = `Bearer ${accessToken}`;
+        }
+
         console.log("API 요청:", config.method?.toUpperCase(), config.url);
         return config;
     },

@@ -1,41 +1,30 @@
 import { useState, useEffect, FC } from "react";
-import { UserService } from "@/services/userService";
+import { useNavigate } from "react-router-dom";
+import { AuthService } from "@/services/authService";
 
 // 로그인 페이지 컴포넌트
 const LoginPage: FC = () => {
     const [error, setError] = useState<string | null>(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        // URL 파라미터에서 에러 확인
-        const urlParams = new URLSearchParams(window.location.search);
-        const errorCode = urlParams.get("error");
-
-        if (errorCode) {
-            const errorMessages: { [key: string]: string } = {
-                server_error: "서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
-                no_auth_code: "인증 코드를 받지 못했습니다. 다시 로그인해주세요.",
-                no_token: "액세스 토큰을 받지 못했습니다. 다시 로그인해주세요.",
-                no_user_info: "사용자 정보를 받지 못했습니다. 다시 로그인해주세요.",
-            };
-
-            setError(errorMessages[errorCode] || "알 수 없는 오류가 발생했습니다.");
-
-            // 에러 파라미터 제거
-            window.history.replaceState({}, document.title, window.location.pathname);
+        if (AuthService.isAuthenticated()) {
+            navigate("/main");
         }
-    }, []);
+    }, [navigate]);
 
-    const handleLogin = async () => {
-        try {
-            const response = await UserService.getLoginUrl();
-            if (response.data.authUrl) {
-                window.location.href = response.data.authUrl;
-            } else {
-                setError("로그인 URL을 가져올 수 없습니다.");
-            }
-        } catch (e: any) {
-            setError("로그인 중 오류가 발생했습니다.");
+    const handleLogin = () => {
+        const clientId = import.meta.env.VITE_GITHUB_CLIENT_ID;
+        const redirectUri = import.meta.env.VITE_GITHUB_REDIRECT_URI || "http://localhost:3000/login/oauth/callback";
+        const scope = import.meta.env.VITE_GITHUB_SCOPE || "read:user,user:email";
+
+        if (!clientId) {
+            setError("GitHub Client ID가 설정되지 않았습니다.");
+            return;
         }
+
+        const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}`;
+        window.location.href = githubAuthUrl;
     };
 
     return (
