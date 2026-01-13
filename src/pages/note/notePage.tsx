@@ -1,6 +1,6 @@
 import { useState, useEffect, FC } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { noteAPI } from "@/api/api";
+import { NoteService } from "@/services/noteService";
 import { Note, DevelopType } from "@/types/note/types";
 import NotePageHeader from "@/components/note/NotePageHeader";
 import NoteListPanel from "@/components/note/NoteListPanel";
@@ -57,9 +57,9 @@ const NotePage: FC<NotePageProps> = ({ githubId, selectedNote: initialNote, onSa
 
             let response;
             if (keyword && keyword.trim()) {
-                response = await noteAPI.searchNotes(currentGitHubId, keyword);
+                response = await NoteService.searchNotes(currentGitHubId, keyword);
             } else {
-                response = await noteAPI.getNotes(currentGitHubId);
+                response = await NoteService.getNotes(currentGitHubId);
             }
             setNotes(response.data.notes);
         } catch (err: any) {
@@ -129,7 +129,7 @@ const NotePage: FC<NotePageProps> = ({ githubId, selectedNote: initialNote, onSa
             }
 
             if (isCreating) {
-                const response = await noteAPI.createNote(currentGitHubId, {
+                const response = await NoteService.createNote(currentGitHubId, {
                     title: title.trim(),
                     content: content.trim(),
                     developType: developType,
@@ -141,7 +141,7 @@ const NotePage: FC<NotePageProps> = ({ githubId, selectedNote: initialNote, onSa
                 setSelectedNote(newNote);
                 setIsCreating(false);
             } else if (isEditing && selectedNote) {
-                await noteAPI.updateNote(currentGitHubId, selectedNote.id.toString(), {
+                await NoteService.updateNote(currentGitHubId, selectedNote.id.toString(), {
                     title: title.trim(),
                     content: content.trim(),
                     developType: developType,

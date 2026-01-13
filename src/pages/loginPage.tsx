@@ -1,5 +1,5 @@
 import { useState, useEffect, FC } from "react";
-import { userAPI } from "@/api/api";
+import { UserService } from "@/services/userService";
 
 // 로그인 페이지 컴포넌트
 const LoginPage: FC = () => {
@@ -27,7 +27,7 @@ const LoginPage: FC = () => {
 
     const handleLogin = async () => {
         try {
-            const response = await userAPI.getLoginUrl();
+            const response = await UserService.getLoginUrl();
             if (response.data.authUrl) {
                 window.location.href = response.data.authUrl;
             } else {

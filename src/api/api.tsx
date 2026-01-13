@@ -1,5 +1,4 @@
 import axios from "axios";
-import { CreateNoteRequest, UpdateNoteRequest } from "@/types/note/types";
 
 // axios 인스턴스 생성
 const api = axios.create({
@@ -35,46 +34,5 @@ api.interceptors.response.use(
 );
 
 // 사용자 관련 API
-export const userAPI = {
-    // GitHub 로그인 URL 가져오기
-    getLoginUrl: () => api.get("/login"),
-
-    // 사용자 정보 가져오기
-    getUser: (githubId: string) => api.get(`/api/user/${githubId}`),
-
-    // D-day 정보 가져오기
-    getDDay: (githubId: string) => api.get(`/api/user/${githubId}/d-day`),
-
-    // 복무 날짜 저장
-    saveServiceDates: (githubId: string, entryDate: string, dischargeDate: string) =>
-        api.post(`/api/user/${githubId}/service-dates?entryDate=${entryDate}&dischargeDate=${dischargeDate}`),
-};
-
-// 회고 관련 API
-export const noteAPI = {
-    // 회고 목록 가져오기 (페이징)
-    getNotes: (githubId: string, page: number = 0, size: number = 10) =>
-        api.get(`/api/notes/${githubId}?page=${page}&size=${size}`),
-
-    // 회고 상세 조회
-    getNote: (githubId: string, noteId: string) => api.get(`/api/notes/${githubId}/${noteId}`),
-
-    // 회고 작성
-    createNote: (githubId: string, data: CreateNoteRequest) => api.post(`/api/notes/${githubId}`, data),
-
-    // 회고 수정
-    updateNote: (githubId: string, noteId: string, data: UpdateNoteRequest) =>
-        api.put(`/api/notes/${githubId}/${noteId}`, data),
-
-    // 회고 삭제
-    deleteNote: (githubId: string, noteId: string) => api.delete(`/api/notes/${githubId}/${noteId}`),
-
-    // 회고 검색
-    searchNotes: (githubId: string, keyword: string) =>
-        api.get(`/api/notes/${githubId}/search?keyword=${encodeURIComponent(keyword)}`),
-
-    // 회고 개수 조회
-    getNoteCount: (githubId: string) => api.get(`/api/notes/${githubId}/count`),
-};
 
 export default api;
