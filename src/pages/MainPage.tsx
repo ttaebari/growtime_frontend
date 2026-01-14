@@ -9,6 +9,9 @@ import MainPageLoading from "@/components/MainPageLoading";
 import Layout from "@/components/Layout";
 import { AuthService } from "@/services/authService";
 import { UserService } from "@/services/userService";
+import { useGitHubContributions } from "@/hooks/useGitHubContributions";
+import ContributionCalendar from "@/components/github/ContributionCalendar";
+import ContributionStats from "@/components/github/ContributionStats";
 
 const MainPage: FC = () => {
     const navigate = useNavigate();
@@ -17,6 +20,9 @@ const MainPage: FC = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
     const [error, setError] = useState("");
+
+    // GitHub 잔디심기 데이터 로드
+    const { contributions, stats, isLoading: isGitHubLoading } = useGitHubContributions(user?.login || null);
 
     // 사용자 정보 로드
     const loadUserInfo = async () => {
@@ -135,6 +141,14 @@ const MainPage: FC = () => {
                             <DDayDisplay dDayInfo={dDayInfo} />
                         ) : (
                             <ServiceDateForm onSubmit={handleSaveServiceDates} isLoading={isSaving} />
+                        )}
+
+                        {/* GitHub 잔디심기 (사용자 정보가 있고 githubId가 있을 때만 표시) */}
+                        {user?.githubId && (
+                            <div className="mt-8 animate-fade-in-up">
+                                <ContributionCalendar contributions={contributions} isLoading={isGitHubLoading} />
+                                <ContributionStats stats={stats} />
+                            </div>
                         )}
                     </div>
                 </div>
