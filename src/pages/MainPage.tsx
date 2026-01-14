@@ -1,4 +1,4 @@
-import { useState, useEffect, FC } from "react";
+import { useState, useEffect, FC, useRef } from "react";
 import DDayDisplay from "@/components/DDayDisplay";
 import ServiceDateForm from "@/components/ServiceDateForm";
 import MenuButton from "@/components/MenuButton";
@@ -6,7 +6,7 @@ import { User, DDayInfo } from "@/types/user/types";
 import { useNavigate } from "react-router-dom";
 import MainPageError from "@/components/MainPageError";
 import MainPageLoading from "@/components/MainPageLoading";
-
+import Layout from "@/components/Layout";
 import { AuthService } from "@/services/authService";
 import { UserService } from "@/services/userService";
 
@@ -100,26 +100,26 @@ const MainPage: FC = () => {
     }
 
     return (
-        <div className="py-8 min-h-screen bg-white">
+        <Layout>
             {/* 메뉴 버튼 */}
             <MenuButton items={menuItems} />
 
-            <div className="container px-4 mx-auto">
+            <div className="container relative px-4 mx-auto pt-8">
                 {/* 헤더 */}
                 <div className="mb-8 text-center">
-                    <h1 className="flex gap-2 justify-center items-center mb-2 text-4xl font-bold text-gray-800">
+                    <h1 className="flex gap-2 justify-center items-center mb-2 text-4xl font-bold text-gray-800 dark:text-gray-100">
                         <span role="img" aria-label="seedling">
                             🌱
                         </span>{" "}
                         GrowTime
                     </h1>
                     {user && (
-                        <div className="flex gap-3 justify-center items-center text-gray-700">
+                        <div className="flex gap-3 justify-center items-center text-gray-700 dark:text-gray-300">
                             <img src={user.avatarUrl} alt={user.name || user.login} className="w-8 h-8 rounded-full" />
                             <span className="font-medium">{user.name || user.login}</span>
                             <button
                                 onClick={AuthService.logout}
-                                className="px-3 py-1 text-sm text-red-500 bg-white rounded-md border border-red-200 shadow-sm transition hover:bg-red-50"
+                                className="px-3 py-1 text-sm text-red-500 bg-white rounded-md border border-red-200 shadow-sm transition hover:bg-red-50 dark:bg-gray-800 dark:border-red-900 dark:hover:bg-gray-700"
                             >
                                 로그아웃
                             </button>
@@ -140,11 +140,11 @@ const MainPage: FC = () => {
                 </div>
 
                 {/* 하단 안내 */}
-                <div className="mt-8 text-sm text-center text-gray-600">
+                <div className="mt-8 text-sm text-center text-gray-600 dark:text-gray-400">
                     <p>산업기능요원 복무 관리 시스템</p>
                 </div>
             </div>
-        </div>
+        </Layout>
     );
 };
 

@@ -1,7 +1,7 @@
 import { FC } from "react";
 
 const NotePlaceholder: FC = () => (
-    <div className="flex flex-1 justify-center items-center text-gray-500">
+    <div className="flex flex-1 justify-center items-center text-gray-500 dark:text-gray-400">
         <div className="text-center">
             <div className="mb-4 text-6xl">📝</div>
             <h3 className="mb-2 text-xl font-medium">회고를 선택하세요</h3>

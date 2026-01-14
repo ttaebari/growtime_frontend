@@ -28,15 +28,15 @@ const LoginPage: FC = () => {
     };
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-white">
-            <div className="p-8 w-full max-w-md text-center bg-white rounded-2xl shadow-2xl">
-                <div className="flex gap-2 justify-center items-center mb-2 text-3xl font-bold text-gray-800">
+        <div className="flex justify-center items-center min-h-screen bg-white transition-colors dark:bg-gray-900">
+            <div className="p-8 w-full max-w-md text-center bg-white rounded-2xl shadow-2xl dark:bg-gray-800">
+                <div className="flex gap-2 justify-center items-center mb-2 text-3xl font-bold text-gray-800 dark:text-gray-100">
                     <span role="img" aria-label="seedling">
                         🌱
                     </span>{" "}
                     GrowTime
                 </div>
-                <div className="mb-6 text-gray-600">산업기능요원 복무 관리 시스템</div>
+                <div className="mb-6 text-gray-600 dark:text-gray-400">산업기능요원 복무 관리 시스템</div>
 
                 {/* 에러 메시지 표시 */}
                 {error && (
@@ -57,7 +57,7 @@ const LoginPage: FC = () => {
                     </svg>
                     GitHub로 로그인
                 </button>
-                <div className="mb-2 text-sm text-gray-500">
+                <div className="mb-2 text-sm text-gray-500 dark:text-gray-400">
                     산업기능요원 복무기간을 관리하고 회고를 작성할 수 있습니다.
                 </div>
             </div>

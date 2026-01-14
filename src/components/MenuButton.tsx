@@ -43,7 +43,7 @@ const MenuButton: React.FC<MenuButtonProps> = ({ items }) => {
             {/* 메뉴 버튼 */}
             <button
                 onClick={handleMenuClick}
-                className="flex fixed top-4 left-4 z-50 justify-center items-center w-12 h-12 text-gray-700 bg-white rounded-full border border-gray-200 shadow-lg transition-all duration-200 hover:bg-gray-50"
+                className="flex fixed top-4 left-4 z-50 justify-center items-center w-12 h-12 text-gray-700 bg-white rounded-full border border-gray-200 shadow-lg transition-all duration-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-700"
                 aria-label="메뉴 열기"
             >
                 <svg
@@ -58,12 +58,12 @@ const MenuButton: React.FC<MenuButtonProps> = ({ items }) => {
 
             {/* 드롭다운 메뉴 */}
             {isOpen && (
-                <div className="fixed left-4 top-16 z-40 py-2 bg-white rounded-xl border border-gray-200 shadow-xl min-w-48">
+                <div className="fixed left-4 top-16 z-40 py-2 bg-white rounded-xl border border-gray-200 shadow-xl min-w-48 dark:bg-gray-800 dark:border-gray-700">
                     {items.map((item) => (
                         <button
                             key={item.id}
                             onClick={() => handleItemClick(item)}
-                            className="flex gap-3 items-center px-4 py-3 w-full text-left text-gray-700 transition-colors duration-150 hover:bg-gray-100"
+                            className="flex gap-3 items-center px-4 py-3 w-full text-left text-gray-700 transition-colors duration-150 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
                         >
                             <span className="text-lg">{item.icon}</span>
                             <span className="font-medium">{item.label}</span>

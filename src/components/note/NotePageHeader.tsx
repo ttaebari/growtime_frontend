@@ -6,12 +6,12 @@ type NotePageHeaderProps = {
 };
 
 const NotePageHeader: FC<NotePageHeaderProps> = ({ onBack, onNewNote }) => (
-    <div className="bg-white border-b border-gray-200">
+    <div className="bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
         <div className="container px-4 py-4 mx-auto">
             <div className="flex justify-between items-center">
                 <button
                     onClick={onBack}
-                    className="flex gap-2 items-center text-gray-700 transition-colors hover:text-gray-900"
+                    className="flex gap-2 items-center text-gray-700 transition-colors hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200"
                 >
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -19,7 +19,7 @@ const NotePageHeader: FC<NotePageHeaderProps> = ({ onBack, onNewNote }) => (
                     <span className="font-medium">뒤로가기</span>
                 </button>
 
-                <h1 className="flex gap-2 items-center text-2xl font-bold text-gray-800">
+                <h1 className="flex gap-2 items-center text-2xl font-bold text-gray-800 dark:text-gray-100">
                     <span role="img" aria-label="notebook">
                         📝
                     </span>

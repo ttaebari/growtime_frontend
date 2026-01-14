@@ -1,5 +1,6 @@
 import { useState, useEffect, FC } from "react";
 import { useNavigate } from "react-router-dom";
+import Layout from "@/components/Layout";
 import { NoteService } from "@/services/noteService";
 import { AuthService } from "@/services/authService";
 import { Note, DevelopType } from "@/types/note/types";
@@ -196,10 +197,10 @@ const NotePage: FC<NotePageProps> = ({ githubId, selectedNote: initialNote, onSa
     }, [initialNote]);
 
     return (
-        <div className="min-h-screen bg-white">
+        <Layout>
             <NotePageHeader onBack={handleBack} onNewNote={handleNewNote} />
 
-            <div className="container flex gap-6 px-4 py-6 mx-auto bg-white" style={{ height: "calc(100vh - 120px)" }}>
+            <div className="container flex gap-6 px-4 py-6 mx-auto" style={{ height: "calc(100vh - 120px)" }}>
                 <NoteListPanel
                     notes={getFilteredNotes()}
                     loading={loadingNotes}
@@ -215,7 +216,7 @@ const NotePage: FC<NotePageProps> = ({ githubId, selectedNote: initialNote, onSa
                     onNewNote={handleNewNote}
                 />
 
-                <div className="flex flex-col flex-1 bg-white rounded-xl border border-gray-200 shadow-xl">
+                <div className="flex flex-col flex-1 bg-white rounded-xl border border-gray-200 shadow-xl dark:bg-gray-800 dark:border-gray-700">
                     {isCreating || isEditing ? (
                         <NoteForm
                             isCreating={isCreating}
@@ -237,7 +238,7 @@ const NotePage: FC<NotePageProps> = ({ githubId, selectedNote: initialNote, onSa
                     )}
                 </div>
             </div>
-        </div>
+        </Layout>
     );
 };
 

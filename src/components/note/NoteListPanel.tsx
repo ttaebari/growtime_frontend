@@ -51,10 +51,10 @@ const NoteListPanel: FC<NoteListPanelProps> = ({
     };
 
     return (
-        <div className="flex flex-col w-80 bg-white rounded-xl border border-gray-200 shadow-xl">
-            <div className="p-4 border-b border-gray-200">
+        <div className="flex flex-col w-80 bg-white rounded-xl border border-gray-200 shadow-xl dark:bg-gray-800 dark:border-gray-700">
+            <div className="p-4 border-b border-gray-200 dark:border-gray-700">
                 <div className="flex justify-between items-center mb-3">
-                    <h2 className="flex gap-2 items-center text-lg font-bold text-gray-800">
+                    <h2 className="flex gap-2 items-center text-lg font-bold text-gray-800 dark:text-gray-100">
                         <span role="img" aria-label="list">
                             📋
                         </span>
@@ -62,14 +62,14 @@ const NoteListPanel: FC<NoteListPanelProps> = ({
                     </h2>
 
                     <div className="flex gap-2 items-center">
-                        <label htmlFor="filter-select" className="text-sm font-medium text-gray-700">
+                        <label htmlFor="filter-select" className="text-sm font-medium text-gray-700 dark:text-gray-300">
                             필터:
                         </label>
                         <select
                             id="filter-select"
                             value={selectedFilter}
                             onChange={(e) => onFilterChange(e.target.value as DevelopType | "ALL")}
-                            className="px-3 py-2 text-sm bg-white rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="px-3 py-2 text-sm bg-white rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                         >
                             <option value="ALL">전체</option>
                             {Object.values(DevelopType).map((type) => (
@@ -87,7 +87,7 @@ const NoteListPanel: FC<NoteListPanelProps> = ({
                         value={searchKeyword}
                         onChange={(event) => onSearchKeywordChange(event.target.value)}
                         placeholder="회고 검색..."
-                        className="flex-1 px-3 py-2 text-sm rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="flex-1 px-3 py-2 text-sm rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
                     />
                     <button
                         type="submit"
@@ -130,15 +130,17 @@ const NoteListPanel: FC<NoteListPanelProps> = ({
                             <button
                                 key={note.id}
                                 onClick={() => onSelectNote(note)}
-                                className={`w-full text-left p-3 rounded-lg transition-all hover:bg-gray-50 ${
+                                className={`w-full text-left p-3 rounded-lg transition-all hover:bg-gray-50 dark:hover:bg-gray-700 ${
                                     selectedNoteId === note.id
-                                        ? "bg-blue-50 border border-blue-200"
-                                        : "border border-gray-200"
+                                        ? "bg-blue-50 border border-blue-200 dark:bg-blue-900/30 dark:border-blue-800"
+                                        : "border border-gray-200 dark:border-gray-700"
                                 }`}
                                 type="button"
                             >
                                 <div className="flex justify-between items-start mb-1">
-                                    <h3 className="font-medium text-gray-800 line-clamp-1">{note.title}</h3>
+                                    <h3 className="font-medium text-gray-800 line-clamp-1 dark:text-gray-200">
+                                        {note.title}
+                                    </h3>
                                     <span
                                         className={`px-2 py-1 text-xs rounded-full ${
                                             DEVELOP_TYPE_COLORS[note.developType]
@@ -147,10 +149,12 @@ const NoteListPanel: FC<NoteListPanelProps> = ({
                                         {DEVELOP_TYPE_LABELS[note.developType]}
                                     </span>
                                 </div>
-                                <p className="mb-2 text-sm text-gray-600 line-clamp-2">
+                                <p className="mb-2 text-sm text-gray-600 line-clamp-2 dark:text-gray-400">
                                     {getContentPreview(note.content)}
                                 </p>
-                                <div className="text-xs text-gray-400">{formatDate(note.createdAt)}</div>
+                                <div className="text-xs text-gray-400 dark:text-gray-500">
+                                    {formatDate(note.createdAt)}
+                                </div>
                             </button>
                         ))}
                     </div>

@@ -26,12 +26,12 @@ const NoteDetail: FC<NoteDetailProps> = ({ note, onEdit }) => {
             <div className="flex justify-between items-start mb-6">
                 <div className="flex-1">
                     <div className="flex gap-3 items-center mb-2">
-                        <h2 className="text-2xl font-bold text-gray-800">{note.title}</h2>
+                        <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">{note.title}</h2>
                         <span className={`px-3 py-1 text-sm rounded-full ${DEVELOP_TYPE_COLORS[note.developType]}`}>
                             {DEVELOP_TYPE_LABELS[note.developType]}
                         </span>
                     </div>
-                    <div className="text-sm text-gray-500">
+                    <div className="text-sm text-gray-500 dark:text-gray-400">
                         작성일: {formatDate(note.createdAt)}
                         {note.updatedAt !== note.createdAt && (
                             <span className="ml-4">수정일: {formatDate(note.updatedAt)}</span>
@@ -47,8 +47,10 @@ const NoteDetail: FC<NoteDetailProps> = ({ note, onEdit }) => {
             </div>
 
             <div className="overflow-y-auto flex-1">
-                <div className="max-w-none prose">
-                    <pre className="leading-relaxed text-gray-800 whitespace-pre-wrap">{note.content}</pre>
+                <div className="max-w-none prose dark:prose-invert">
+                    <pre className="leading-relaxed text-gray-800 whitespace-pre-wrap dark:text-gray-200">
+                        {note.content}
+                    </pre>
                 </div>
             </div>
         </div>

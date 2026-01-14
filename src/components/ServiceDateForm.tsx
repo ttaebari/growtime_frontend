@@ -37,15 +37,18 @@ const ServiceDateForm: React.FC<ServiceDateFormProps> = ({ onSubmit, isLoading =
     };
 
     return (
-        <div className="p-8 w-full max-w-2xl bg-white rounded-2xl shadow-xl">
+        <div className="p-8 w-full max-w-2xl bg-white rounded-2xl shadow-xl dark:bg-gray-800">
             <div className="mb-6 text-center">
-                <h2 className="mb-2 text-2xl font-bold text-gray-800">복무 정보 설정</h2>
-                <p className="text-gray-600">입영일과 제대일을 입력해주세요</p>
+                <h2 className="mb-2 text-2xl font-bold text-gray-800 dark:text-gray-100">복무 정보 설정</h2>
+                <p className="text-gray-600 dark:text-gray-400">입영일과 제대일을 입력해주세요</p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                    <label htmlFor="entryDate" className="block mb-2 text-sm font-medium text-gray-700">
+                    <label
+                        htmlFor="entryDate"
+                        className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300"
+                    >
                         입영일
                     </label>
                     <input
@@ -53,13 +56,16 @@ const ServiceDateForm: React.FC<ServiceDateFormProps> = ({ onSubmit, isLoading =
                         id="entryDate"
                         value={entryDate}
                         onChange={(e) => setEntryDate(e.target.value)}
-                        className="px-4 py-3 w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="px-4 py-3 w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                         required
                     />
                 </div>
 
                 <div>
-                    <label htmlFor="dischargeDate" className="block mb-2 text-sm font-medium text-gray-700">
+                    <label
+                        htmlFor="dischargeDate"
+                        className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300"
+                    >
                         제대일
                     </label>
                     <input
@@ -67,7 +73,7 @@ const ServiceDateForm: React.FC<ServiceDateFormProps> = ({ onSubmit, isLoading =
                         id="dischargeDate"
                         value={dischargeDate}
                         onChange={(e) => setDischargeDate(e.target.value)}
-                        className="px-4 py-3 w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="px-4 py-3 w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                         required
                     />
                 </div>
@@ -85,9 +91,9 @@ const ServiceDateForm: React.FC<ServiceDateFormProps> = ({ onSubmit, isLoading =
                 </button>
             </form>
 
-            <div className="p-4 mt-6 bg-blue-50 rounded-lg">
-                <h3 className="mb-2 font-semibold text-blue-800">💡 안내</h3>
-                <ul className="space-y-1 text-sm text-blue-700">
+            <div className="p-4 mt-6 bg-blue-50 rounded-lg dark:bg-blue-900/30">
+                <h3 className="mb-2 font-semibold text-blue-800 dark:text-blue-100">💡 안내</h3>
+                <ul className="space-y-1 text-sm text-blue-700 dark:text-blue-200">
                     <li>• 입영일은 복무를 시작한 날짜입니다</li>
                     <li>• 제대일은 복무가 끝나는 날짜입니다</li>
                     <li>• 정확한 날짜를 입력하면 D-day가 자동으로 계산됩니다</li>
