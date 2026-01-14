@@ -8,6 +8,7 @@ import MainPageError from "@/components/MainPageError";
 import MainPageLoading from "@/components/MainPageLoading";
 
 import { AuthService } from "@/services/authService";
+import { UserService } from "@/services/userService";
 
 const MainPage: FC = () => {
     const navigate = useNavigate();
@@ -26,21 +27,16 @@ const MainPage: FC = () => {
                 return;
             }
 
-            const response = await fetch(`/api/user/${githubId}`);
+            const userData = await UserService.getUser(githubId);
+            setUser(userData);
 
-            if (response.ok) {
-                const userData = await response.json();
-                setUser(userData);
-
-                // 복무 날짜가 설정되어 있으면 D-day 정보도 로드
-                if (userData.entryDate && userData.dischargeDate) {
-                    await loadDDayInfo(githubId);
-                }
-            } else {
-                setError("사용자 정보를 불러올 수 없습니다.");
+            // 복무 날짜가 설정되어 있으면 D-day 정보도 로드
+            if (userData.entryDate && userData.dischargeDate) {
+                await loadDDayInfo(githubId);
             }
         } catch (err) {
-            setError("서버 연결에 실패했습니다.");
+            console.error("사용자 정보 로드 실패:", err);
+            setError("사용자 정보를 불러올 수 없습니다.");
         } finally {
             setIsLoading(false);
         }
@@ -49,15 +45,10 @@ const MainPage: FC = () => {
     // D-day 정보 로드
     const loadDDayInfo = async (githubId: string) => {
         try {
-            const response = await fetch(`/api/user/${githubId}/d-day`);
-
-            if (response.ok) {
-                const dDayData = await response.json();
-                setDDayInfo(dDayData);
-            } else {
-                setError("D-day 정보를 불러올 수 없습니다.");
-            }
+            const dDayData = await UserService.getDDay(githubId);
+            setDDayInfo(dDayData);
         } catch (err) {
+            console.error("D-day 정보 로드 실패:", err);
             setError("D-day 정보 로드에 실패했습니다.");
         }
     };
@@ -69,25 +60,17 @@ const MainPage: FC = () => {
 
         try {
             const githubId = AuthService.getGithubId();
-            const params = new URLSearchParams({
-                entryDate,
-                dischargeDate,
-            });
+            if (!githubId) return;
 
-            const response = await fetch(`/api/user/${githubId}/service-dates?${params}`, {
-                method: "POST",
-            });
-
-            if (response.ok) {
-                const result = await response.json();
-                setUser(result);
-                await loadDDayInfo(githubId);
-            } else {
-                const errorData = await response.json();
-                setError(errorData.error || "복무 정보 저장에 실패했습니다.");
-            }
-        } catch (err) {
-            setError("서버 연결에 실패했습니다.");
+            const updatedUser = await UserService.saveServiceDates(githubId, entryDate, dischargeDate);
+            setUser(updatedUser);
+            await loadDDayInfo(githubId);
+        } catch (err: any) {
+            console.error("복무 정보 저장 실패:", err);
+            // UserService likely throws an error rejected from api interceptor
+            // api interceptor rejects with error object. error.response?.data is ApiResponse error
+            const errorMessage = err.response?.data?.error?.message || "복무 정보 저장에 실패했습니다.";
+            setError(errorMessage);
         } finally {
             setIsSaving(false);
         }

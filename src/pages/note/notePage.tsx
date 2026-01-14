@@ -55,13 +55,15 @@ const NotePage: FC<NotePageProps> = ({ githubId, selectedNote: initialNote, onSa
             const currentGitHubId = getGitHubId();
             if (!currentGitHubId) return;
 
-            let response;
+            let notesData;
             if (keyword && keyword.trim()) {
-                response = await NoteService.searchNotes(currentGitHubId, keyword);
+                const response = await NoteService.searchNotes(currentGitHubId, keyword);
+                notesData = response.notes;
             } else {
-                response = await NoteService.getNotes(currentGitHubId);
+                const response = await NoteService.getNotes(currentGitHubId);
+                notesData = response.notes;
             }
-            setNotes(response.data.notes);
+            setNotes(notesData);
         } catch (err: any) {
             console.error("회고 목록 로드 실패:", err);
             setNotesError("회고 목록을 불러올 수 없습니다.");
@@ -129,7 +131,7 @@ const NotePage: FC<NotePageProps> = ({ githubId, selectedNote: initialNote, onSa
             }
 
             if (isCreating) {
-                const response = await NoteService.createNote(currentGitHubId, {
+                const newNote = await NoteService.createNote(currentGitHubId, {
                     title: title.trim(),
                     content: content.trim(),
                     developType: developType,
@@ -137,7 +139,6 @@ const NotePage: FC<NotePageProps> = ({ githubId, selectedNote: initialNote, onSa
 
                 await loadNotes();
 
-                const newNote = response.data;
                 setSelectedNote(newNote);
                 setIsCreating(false);
             } else if (isEditing && selectedNote) {
