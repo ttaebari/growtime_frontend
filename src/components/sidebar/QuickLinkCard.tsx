@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { QuickLink } from "@/types/quicklink/types";
+import { useConfirmStore } from "@/store/confirmStore";
 
 interface Props {
     link: QuickLink;
@@ -7,6 +8,8 @@ interface Props {
 }
 
 const QuickLinkCard: FC<Props> = ({ link, onDelete }) => {
+    const { openConfirm } = useConfirmStore();
+
     return (
         <div className="group relative flex items-center p-3 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 transition-all hover:shadow-md hover:border-gray-200 dark:hover:border-gray-600">
             <a
@@ -39,9 +42,7 @@ const QuickLinkCard: FC<Props> = ({ link, onDelete }) => {
 
             <button
                 onClick={() => {
-                    if (window.confirm("이 링크를 삭제하시겠습니까?")) {
-                        onDelete(link.id);
-                    }
+                    openConfirm("링크 삭제", "이 링크를 삭제하시겠습니까?", () => onDelete(link.id));
                 }}
                 className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-full opacity-0 group-hover:opacity-100 transition-all"
                 aria-label="삭제"
