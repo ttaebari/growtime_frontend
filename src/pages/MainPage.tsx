@@ -9,6 +9,8 @@ import MainPageLoading from "@/components/MainPageLoading";
 import Layout from "@/components/Layout";
 import { AuthService } from "@/services/authService";
 import { UserService } from "@/services/userService";
+import LeftSidebar from "@/components/sidebar/LeftSidebar";
+import RightSidebar from "@/components/sidebar/RightSidebar";
 import { useGitHubContributions } from "@/hooks/useGitHubContributions";
 import ContributionCalendar from "@/components/github/ContributionCalendar";
 import ContributionStats from "@/components/github/ContributionStats";
@@ -82,6 +84,11 @@ const MainPage: FC = () => {
         }
     };
 
+    // ServiceDateForm의 onSubmit 핸들러를 위한 래퍼 함수
+    const handleServiceDateSubmit = async (entryDate: string, dischargeDate: string) => {
+        await handleSaveServiceDates(entryDate, dischargeDate);
+    };
+
     useEffect(() => {
         loadUserInfo();
     }, []);
@@ -134,22 +141,107 @@ const MainPage: FC = () => {
                 </div>
 
                 {/* 메인 콘텐츠 */}
-                <div className="flex justify-center items-start">
-                    {/* D-day 또는 복무 날짜 입력 */}
-                    <div className="w-full max-w-2xl">
-                        {dDayInfo ? (
-                            <DDayDisplay dDayInfo={dDayInfo} />
-                        ) : (
-                            <ServiceDateForm onSubmit={handleSaveServiceDates} isLoading={isSaving} />
-                        )}
+                <div className="max-w-[1600px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 transition-all duration-300">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                        {/* Left Sidebar (Quick Links) */}
+                        <div className="hidden lg:block lg:col-span-3 sticky top-24">
+                            <LeftSidebar githubId={user?.githubId} />
+                        </div>
 
-                        {/* GitHub 잔디심기 (사용자 정보가 있고 githubId가 있을 때만 표시) */}
-                        {user?.githubId && (
-                            <div className="mt-8 animate-fade-in-up">
-                                <ContributionCalendar contributions={contributions} isLoading={isGitHubLoading} />
-                                <ContributionStats stats={stats} />
+                        {/* Main Content Center */}
+                        <div className="lg:col-span-6 w-full max-w-2xl mx-auto flex flex-col items-center gap-12 order-first lg:order-none">
+                            {/* User Info Section */}
+                            {user && (
+                                <div className="flex flex-col items-center animate-in fade-in zoom-in duration-500">
+                                    <div className="relative group cursor-pointer">
+                                        <div className="absolute -inset-0.5 bg-gradient-to-r from-pink-600 to-purple-600 rounded-full opacity-75 group-hover:opacity-100 transition duration-200 blur"></div>
+                                        <img
+                                            src={user.avatarUrl || "https://github.com/identicons/jasonlong.png"}
+                                            alt="Profile"
+                                            className="relative w-32 h-32 rounded-full border-4 border-white dark:border-gray-800 shadow-xl transform transition duration-200 group-hover:scale-105"
+                                        />
+                                        <div className="absolute bottom-0 right-0 w-8 h-8 bg-green-500 rounded-full border-4 border-white dark:border-gray-800 flex items-center justify-center">
+                                            <div className="w-full h-full rounded-full animate-ping bg-green-500 opacity-75 absolute"></div>
+                                            <div className="w-2 h-2 bg-white rounded-full relative z-10"></div>
+                                        </div>
+                                    </div>
+                                    <h1 className="mt-6 text-4xl font-bold text-gray-900 dark:text-white tracking-tight flex items-center gap-2">
+                                        Hello,{" "}
+                                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-purple-600">
+                                            {user.name || user.login}
+                                        </span>
+                                        <span className="animate-pulse">👋</span>
+                                    </h1>
+                                    <p className="mt-2 text-gray-500 dark:text-gray-400 font-medium">
+                                        Have a productive day!
+                                    </p>
+                                </div>
+                            )}
+
+                            {/* D-Day Section */}
+                            <div className="w-full transform hover:scale-[1.02] transition-all duration-300">
+                                {dDayInfo ? (
+                                    <DDayDisplay dDayInfo={dDayInfo} />
+                                ) : (
+                                    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-100 dark:border-gray-700 backdrop-blur-sm bg-opacity-80 dark:bg-opacity-80">
+                                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">
+                                            복무일 계산기
+                                        </h2>
+                                        <ServiceDateForm onSubmit={handleServiceDateSubmit} isLoading={isSaving} />
+                                    </div>
+                                )}
                             </div>
-                        )}
+
+                            {/* GitHub Contribution Section */}
+                            {user?.login && (contributions || isGitHubLoading) && (
+                                <div className="w-full animate-in slide-in-from-bottom-4 fade-in duration-700 delay-150">
+                                    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 border border-gray-100 dark:border-gray-700">
+                                        <div className="flex items-center justify-between mb-6">
+                                            <h3 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                                                <svg className="w-5 h-5" viewBox="0 0 16 16" fill="currentColor">
+                                                    <path
+                                                        fillRule="evenodd"
+                                                        d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
+                                                    ></path>
+                                                </svg>
+                                                Recent Activity
+                                            </h3>
+                                            <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300">
+                                                Last 12 weeks
+                                            </span>
+                                        </div>
+
+                                        {isGitHubLoading ? (
+                                            <div className="h-40 flex items-center justify-center text-gray-400">
+                                                Loading contributions...
+                                            </div>
+                                        ) : (
+                                            <>
+                                                {contributions && (
+                                                    <ContributionCalendar contributions={contributions} />
+                                                )}
+                                                {stats && (
+                                                    <div className="mt-6">
+                                                        <ContributionStats stats={stats} />
+                                                    </div>
+                                                )}
+                                            </>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Right Sidebar (Pomodoro) */}
+                        <div className="hidden lg:block lg:col-span-3 sticky top-24">
+                            <RightSidebar />
+                        </div>
+
+                        {/* Mobile Only Sidebars (Stacked below main content) */}
+                        <div className="lg:hidden w-full space-y-6 mt-8 order-last">
+                            <LeftSidebar githubId={user?.login} />
+                            <RightSidebar />
+                        </div>
                     </div>
                 </div>
 
