@@ -26,11 +26,7 @@ const Callback = () => {
                 // 로그인 성공 시 메인 페이지로 이동
                 navigate("/main");
             } catch (error) {
-                // 에러가 발생했더라도, 쿠키에 토큰이 있다면 로그인 성공으로 간주 (이중 요청 방지)
-                if (AuthService.isAuthenticated()) {
-                    navigate("/main");
-                    return;
-                }
+                AuthService.clearAuth();
                 console.error("로그인 실패:", error);
                 alert("로그인 처리에 실패했습니다.");
                 navigate("/");

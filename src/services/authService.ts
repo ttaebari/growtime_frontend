@@ -11,6 +11,12 @@ interface LoginResponse {
 
 const cookies = new Cookies();
 
+const clearAuthCookies = () => {
+    cookies.remove("accessToken", { path: "/" });
+    cookies.remove("refreshToken", { path: "/" });
+    cookies.remove("githubId", { path: "/" });
+};
+
 export const AuthService = {
     // 인가 코드로 로그인 요청
     login: async (code: string) => {
@@ -31,11 +37,11 @@ export const AuthService = {
 
     // 로그아웃
     logout: () => {
-        cookies.remove("accessToken", { path: "/" });
-        cookies.remove("refreshToken", { path: "/" });
-        cookies.remove("githubId", { path: "/" });
+        clearAuthCookies();
         window.location.href = "/";
     },
+
+    clearAuth: clearAuthCookies,
 
     // 토큰 가져오기
     getAccessToken: () => cookies.get("accessToken"),
@@ -43,5 +49,5 @@ export const AuthService = {
     getGithubId: () => cookies.get("githubId"),
 
     // 로그인 여부 확인
-    isAuthenticated: () => !!cookies.get("accessToken"),
+    isAuthenticated: () => !!cookies.get("accessToken") && !!cookies.get("githubId"),
 };

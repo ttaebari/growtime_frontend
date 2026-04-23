@@ -28,4 +28,8 @@ export const routes: RouteConfig[] = [
         path: "/login/oauth/callback",
         element: <Callback />,
     },
+    {
+        path: "/callback",
+        element: <Callback />,
+    },
 ];

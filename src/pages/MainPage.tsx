@@ -31,7 +31,8 @@ const MainPage: FC = () => {
         try {
             const githubId = AuthService.getGithubId();
             if (!githubId) {
-                navigate("/");
+                AuthService.clearAuth();
+                navigate("/", { replace: true });
                 return;
             }
 
@@ -42,8 +43,13 @@ const MainPage: FC = () => {
             if (userData.entryDate && userData.dischargeDate) {
                 await loadDDayInfo(githubId);
             }
-        } catch (err) {
+        } catch (err: any) {
             console.error("사용자 정보 로드 실패:", err);
+            if (err.response?.status === 404 && err.response?.data?.error?.code === "USER_NOT_FOUND") {
+                AuthService.clearAuth();
+                navigate("/", { replace: true });
+                return;
+            }
             setError("사용자 정보를 불러올 수 없습니다.");
         } finally {
             setIsLoading(false);
