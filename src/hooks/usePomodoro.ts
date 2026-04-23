@@ -2,12 +2,6 @@ import { useState, useEffect, useCallback, useRef } from "react";
 
 type TimerMode = "focus" | "shortBreak" | "longBreak";
 
-interface PomodoroState {
-    mode: TimerMode;
-    timeLeft: number;
-    isRunning: boolean;
-}
-
 const TIMER_SETTINGS = {
     focus: 25 * 60,
     shortBreak: 5 * 60,

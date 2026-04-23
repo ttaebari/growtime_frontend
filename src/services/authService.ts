@@ -1,6 +1,5 @@
 import { Cookies } from "react-cookie";
 import api from "../api/api";
-import { User } from "@/types/user/types";
 
 import { ApiResponse } from "@/types/common";
 

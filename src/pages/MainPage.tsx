@@ -1,4 +1,4 @@
-import { useState, useEffect, FC, useRef } from "react";
+import { useState, useEffect, FC } from "react";
 import DDayDisplay from "@/components/DDayDisplay";
 import ServiceDateForm from "@/components/ServiceDateForm";
 import MenuButton from "@/components/MenuButton";

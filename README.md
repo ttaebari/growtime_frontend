@@ -1,46 +1,58 @@
-# Getting Started with Create React App
+# GrowTime Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+산업기능요원 복무 관리와 회고 작성을 위한 GrowTime 프론트엔드입니다. React, TypeScript, Vite 기반으로 동작하며 Vercel에 배포합니다.
 
-## Available Scripts
+## 주요 기능
 
-In the project directory, you can run:
+- GitHub OAuth 로그인
+- 복무 시작일/전역일 등록과 D-Day 확인
+- 회고 작성, 조회, 수정, 삭제
+- GitHub 활동 캘린더와 빠른 링크 관리
+- 다크 모드와 포모도로 타이머
 
-### `npm start`
+## 기술 스택
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- React 19
+- TypeScript
+- Vite
+- Tailwind CSS
+- Axios
+- Zustand
+- React Router
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## 로컬 실행
 
-### `npm test`
+```bash
+npm install
+npm run dev
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+기본 개발 서버는 `http://localhost:3000`입니다.
 
-### `npm run build`
+## 환경 변수
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+`.env.local`에 API 서버 주소를 설정합니다.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+VITE_API_BASE_URL=http://localhost:8196
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+배포 환경에서는 Render 백엔드 주소를 사용합니다.
 
-### `npm run eject`
+```bash
+VITE_API_BASE_URL=https://growtime-backend.onrender.com
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## 빌드
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+npm run build
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Vercel Output Directory는 `build`입니다.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## 배포
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Production URL: https://growtime-frontend-nine.vercel.app/
+- `master` 브랜치에 병합 후 GitHub Actions 또는 Vercel 배포가 실행됩니다.
+- GitHub OAuth App의 callback URL에는 Vercel 프론트 주소 기준 `/callback`을 등록해야 합니다.
