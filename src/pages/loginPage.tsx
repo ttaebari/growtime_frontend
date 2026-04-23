@@ -16,14 +16,19 @@ const LoginPage: FC = () => {
     const handleLogin = () => {
         const clientId = import.meta.env.VITE_GITHUB_CLIENT_ID;
         const redirectUri = import.meta.env.VITE_GITHUB_REDIRECT_URI || "http://localhost:3000/login/oauth/callback";
-        const scope = import.meta.env.VITE_GITHUB_SCOPE || "read:user,user:email";
+        const scope = (import.meta.env.VITE_GITHUB_SCOPE || "read:user user:email").replaceAll(",", " ");
 
         if (!clientId) {
             setError("GitHub Client ID가 설정되지 않았습니다.");
             return;
         }
 
-        const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}`;
+        const params = new URLSearchParams({
+            client_id: clientId,
+            redirect_uri: redirectUri,
+            scope,
+        });
+        const githubAuthUrl = `https://github.com/login/oauth/authorize?${params.toString()}`;
         window.location.href = githubAuthUrl;
     };
 
