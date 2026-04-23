@@ -1,9 +1,11 @@
 import axios from "axios";
 import { Cookies } from "react-cookie";
 
+const apiBaseURL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8196";
+
 // axios 인스턴스 생성
 const api = axios.create({
-    baseURL: "http://localhost:8196",
+    baseURL: apiBaseURL,
     timeout: 10000,
     headers: {
         "Content-Type": "application/json",
