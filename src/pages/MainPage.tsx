@@ -245,7 +245,7 @@ const MainPage: FC = () => {
 
                         {/* Mobile Only Sidebars (Stacked below main content) */}
                         <div className="lg:hidden w-full space-y-6 mt-8 order-last">
-                            <LeftSidebar githubId={user?.login} />
+                            <LeftSidebar githubId={user?.githubId} />
                             <RightSidebar />
                         </div>
                     </div>
