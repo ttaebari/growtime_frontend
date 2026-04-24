@@ -15,7 +15,7 @@ const LoginPage: FC = () => {
 
     const handleLogin = () => {
         const clientId = import.meta.env.VITE_GITHUB_CLIENT_ID;
-        const redirectUri = import.meta.env.VITE_GITHUB_REDIRECT_URI || "http://localhost:3000/login/oauth/callback";
+        const redirectUri = import.meta.env.VITE_GITHUB_REDIRECT_URI || `${window.location.origin}/callback`;
         const scope = (import.meta.env.VITE_GITHUB_SCOPE || "read:user user:email").replaceAll(",", " ");
 
         if (!clientId) {
