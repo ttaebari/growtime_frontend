@@ -25,10 +25,14 @@ const Callback = () => {
                 await AuthService.login(code);
                 // 로그인 성공 시 메인 페이지로 이동
                 navigate("/main");
-            } catch (error) {
+            } catch (error: any) {
                 AuthService.clearAuth();
                 console.error("로그인 실패:", error);
-                alert("로그인 처리에 실패했습니다.");
+                const errorMessage =
+                    error.response?.data?.error?.message ||
+                    error.response?.data?.message ||
+                    "로그인 처리에 실패했습니다.";
+                alert(errorMessage);
                 navigate("/");
             }
         };
