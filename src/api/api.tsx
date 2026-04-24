@@ -21,8 +21,6 @@ api.interceptors.request.use(
         if (accessToken) {
             config.headers.Authorization = `Bearer ${accessToken}`;
         }
-
-        console.log("API 요청:", config.method?.toUpperCase(), config.url);
         return config;
     },
     (error: any) => {
@@ -33,10 +31,7 @@ api.interceptors.request.use(
 
 // 응답 인터셉터 (응답 후에 실행)
 api.interceptors.response.use(
-    (response: any) => {
-        console.log("API 응답:", response.status, response.config.url);
-        return response;
-    },
+    (response: any) => response,
     (error: any) => {
         console.error("API 응답 에러:", error.response?.status, error.response?.data);
         return Promise.reject(error);

@@ -46,7 +46,7 @@ export const usePomodoro = () => {
             setIsRunning(false);
             // 알림음 재생
             if (audioRef.current) {
-                audioRef.current.play().catch((e) => console.log("Audio play failed", e));
+                audioRef.current.play().catch(() => undefined);
             }
             // 브라우저 알림
             if (Notification.permission === "granted") {

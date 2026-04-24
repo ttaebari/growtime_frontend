@@ -14,7 +14,6 @@ interface DDayDisplayProps {
 }
 
 const DDayDisplay: React.FC<DDayDisplayProps> = ({ dDayInfo }) => {
-    console.log("dDayInfo", dDayInfo);
     const formatDate = (dateString: string) => {
         return new Date(dateString).toLocaleDateString("ko-KR", {
             year: "numeric",
