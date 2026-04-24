@@ -2,11 +2,21 @@ import axios from "axios";
 import { Cookies } from "react-cookie";
 
 const apiBaseURL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8196";
+const configuredApiTimeout = Number(import.meta.env.VITE_API_TIMEOUT_MS);
+const apiTimeout =
+    Number.isFinite(configuredApiTimeout) && configuredApiTimeout > 0 ? configuredApiTimeout : 90000;
+
+const clearAuthCookies = () => {
+    const cookies = new Cookies();
+    cookies.remove("accessToken", { path: "/" });
+    cookies.remove("refreshToken", { path: "/" });
+    cookies.remove("githubId", { path: "/" });
+};
 
 // axios 인스턴스 생성
 const api = axios.create({
     baseURL: apiBaseURL,
-    timeout: 10000,
+    timeout: apiTimeout,
     headers: {
         "Content-Type": "application/json",
     },
@@ -33,7 +43,11 @@ api.interceptors.request.use(
 api.interceptors.response.use(
     (response: any) => response,
     (error: any) => {
-        console.error("API 응답 에러:", error.response?.status, error.response?.data);
+        const status = error.response?.status;
+        if ((status === 401 || status === 403) && window.location.pathname !== "/") {
+            clearAuthCookies();
+            window.location.href = "/";
+        }
         return Promise.reject(error);
     }
 );
