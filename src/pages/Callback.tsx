@@ -1,9 +1,10 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthService } from "@/services/authService";
 
 const Callback = () => {
     const navigate = useNavigate();
+    const [statusMessage, setStatusMessage] = useState("서버 준비 중...");
 
     const processedRef = useRef(false);
 
@@ -22,6 +23,8 @@ const Callback = () => {
             processedRef.current = true;
 
             try {
+                await AuthService.waitForBackendReady();
+                setStatusMessage("로그인 처리 중...");
                 await AuthService.login(code);
                 // 로그인 성공 시 메인 페이지로 이동
                 navigate("/main");
@@ -42,8 +45,8 @@ const Callback = () => {
 
     return (
         <div className="flex flex-col justify-center items-center min-h-screen">
-            <div className="text-xl font-semibold">로그인 처리 중...</div>
-            <div className="mt-2 text-gray-500">잠시만 기다려주세요.</div>
+            <div className="text-xl font-semibold">{statusMessage}</div>
+            <div className="mt-2 text-gray-500">무료 서버라 첫 접속은 1-2분 걸릴 수 있습니다.</div>
         </div>
     );
 };

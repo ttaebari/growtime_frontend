@@ -1,5 +1,5 @@
 import { Cookies } from "react-cookie";
-import api from "../api/api";
+import api, { apiTimeout } from "../api/api";
 
 import { ApiResponse } from "@/types/common";
 
@@ -17,7 +17,27 @@ const clearAuthCookies = () => {
     cookies.remove("githubId", { path: "/" });
 };
 
+const sleep = (ms: number) => new Promise((resolve) => window.setTimeout(resolve, ms));
+
+const waitForBackendReady = async () => {
+    const maxAttempts = 5;
+
+    for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+        try {
+            await api.get("/actuator/health", { timeout: apiTimeout });
+            return;
+        } catch (error) {
+            if (attempt === maxAttempts) {
+                throw error;
+            }
+            await sleep(3000);
+        }
+    }
+};
+
 export const AuthService = {
+    waitForBackendReady,
+
     // 인가 코드로 로그인 요청
     login: async (code: string) => {
         // 백엔드의 변경될 엔드포인트로 요청

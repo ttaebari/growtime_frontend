@@ -3,8 +3,8 @@ import { Cookies } from "react-cookie";
 
 const apiBaseURL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8196";
 const configuredApiTimeout = Number(import.meta.env.VITE_API_TIMEOUT_MS);
-const apiTimeout =
-    Number.isFinite(configuredApiTimeout) && configuredApiTimeout > 0 ? configuredApiTimeout : 90000;
+export const apiTimeout =
+    Number.isFinite(configuredApiTimeout) && configuredApiTimeout > 0 ? configuredApiTimeout : 180000;
 
 const clearAuthCookies = () => {
     const cookies = new Cookies();
