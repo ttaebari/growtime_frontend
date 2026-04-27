@@ -45,8 +45,9 @@ const Callback = () => {
 
     return (
         <div className="flex flex-col justify-center items-center min-h-screen">
+            <div className="mb-5 h-10 w-10 animate-spin rounded-full border-4 border-gray-200 border-t-green-600" />
             <div className="text-xl font-semibold">{statusMessage}</div>
-            <div className="mt-2 text-gray-500">무료 서버라 첫 접속은 1-2분 걸릴 수 있습니다.</div>
+            <div className="mt-2 text-gray-500">첫 접속은 1~2분 걸릴 수 있습니다.</div>
         </div>
     );
 };
