@@ -13,6 +13,11 @@ const clearAuthCookies = () => {
     cookies.remove("githubId", { path: "/" });
 };
 
+const isPublicEndpoint = (url?: string) => {
+    if (!url) return false;
+    return url.startsWith("/health") || url.startsWith("/callback");
+};
+
 // axios 인스턴스 생성
 const api = axios.create({
     baseURL: apiBaseURL,
@@ -28,7 +33,7 @@ api.interceptors.request.use(
         const cookies = new Cookies();
         const accessToken = cookies.get("accessToken");
 
-        if (accessToken) {
+        if (accessToken && !isPublicEndpoint(config.url)) {
             config.headers.Authorization = `Bearer ${accessToken}`;
         }
         return config;

@@ -24,7 +24,7 @@ const waitForBackendReady = async () => {
 
     for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
         try {
-            await api.get("/actuator/health", { timeout: apiTimeout });
+            await api.get("/health", { timeout: apiTimeout });
             return;
         } catch (error) {
             if (attempt === maxAttempts) {
