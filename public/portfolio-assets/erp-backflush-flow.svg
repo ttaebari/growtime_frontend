@@ -1,0 +1,148 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1600" y2="900" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8FAFC"/>
+      <stop offset="1" stop-color="#EEF4FF"/>
+    </linearGradient>
+    <linearGradient id="inputCard" x1="80" y1="180" x2="420" y2="520" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ECFDF5"/>
+      <stop offset="1" stop-color="#D1FAE5"/>
+    </linearGradient>
+    <linearGradient id="logicCard" x1="580" y1="160" x2="1020" y2="620" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#EFF6FF"/>
+      <stop offset="1" stop-color="#DBEAFE"/>
+    </linearGradient>
+    <linearGradient id="outputCard" x1="1120" y1="180" x2="1520" y2="520" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF7ED"/>
+      <stop offset="1" stop-color="#FFEDD5"/>
+    </linearGradient>
+    <marker id="arrowBlue" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+      <path d="M1 1L10 6L1 11V1Z" fill="#2563EB"/>
+    </marker>
+    <marker id="arrowOrange" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+      <path d="M1 1L10 6L1 11V1Z" fill="#EA580C"/>
+    </marker>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="18" flood-color="#0F172A" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#bg)"/>
+
+  <text x="80" y="96" fill="#0F172A" font-size="38" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
+    백플러시 기반 자재 소모 계산 흐름
+  </text>
+  <text x="80" y="136" fill="#475569" font-size="20" font-weight="500" font-family="Inter, Pretendard, Arial, sans-serif">
+    현업은 완성수량과 불량수량만 입력하고, 시스템이 BOM 기준 자재 소요량을 역산해 생산실적과 자재 수불을 함께 처리
+  </text>
+
+  <rect x="80" y="180" width="360" height="520" rx="28" fill="url(#inputCard)" stroke="#86EFAC" stroke-width="2" filter="url(#shadow)"/>
+  <text x="120" y="250" fill="#166534" font-size="28" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
+    1. 현업 입력
+  </text>
+  <rect x="120" y="286" width="280" height="92" rx="20" fill="#FFFFFF" stroke="#BBF7D0"/>
+  <text x="150" y="336" fill="#0F172A" font-size="24" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
+    양품 수량 입력
+  </text>
+  <text x="150" y="366" fill="#64748B" font-size="18" font-family="Inter, Pretendard, Arial, sans-serif">
+    예: 980 ea
+  </text>
+  <rect x="120" y="402" width="280" height="92" rx="20" fill="#FFFFFF" stroke="#BBF7D0"/>
+  <text x="150" y="452" fill="#0F172A" font-size="24" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
+    불량 수량 입력
+  </text>
+  <text x="150" y="482" fill="#64748B" font-size="18" font-family="Inter, Pretendard, Arial, sans-serif">
+    예: 20 ea
+  </text>
+  <rect x="120" y="536" width="280" height="120" rx="20" fill="#14532D"/>
+  <text x="150" y="582" fill="#DCFCE7" font-size="20" font-weight="600" font-family="Inter, Pretendard, Arial, sans-serif">
+    사용자 경험 개선
+  </text>
+  <text x="150" y="620" fill="#FFFFFF" font-size="26" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
+    자재별 사용량 직접 입력 제거
+  </text>
+
+  <path d="M460 440H540" stroke="#2563EB" stroke-width="8" stroke-linecap="round" marker-end="url(#arrowBlue)"/>
+  <text x="470" y="410" fill="#2563EB" font-size="18" font-weight="600" font-family="Inter, Pretendard, Arial, sans-serif">
+    입력 단순화
+  </text>
+
+  <rect x="560" y="160" width="480" height="560" rx="28" fill="url(#logicCard)" stroke="#93C5FD" stroke-width="2" filter="url(#shadow)"/>
+  <text x="600" y="230" fill="#1D4ED8" font-size="28" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
+    2. 시스템 계산
+  </text>
+
+  <rect x="610" y="272" width="380" height="82" rx="18" fill="#FFFFFF" stroke="#BFDBFE"/>
+  <text x="640" y="320" fill="#0F172A" font-size="24" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
+    총 생산 수량 계산
+  </text>
+  <text x="640" y="346" fill="#475569" font-size="18" font-family="Inter, Pretendard, Arial, sans-serif">
+    양품 + 불량 = 1,000 ea
+  </text>
+
+  <rect x="610" y="376" width="380" height="82" rx="18" fill="#FFFFFF" stroke="#BFDBFE"/>
+  <text x="640" y="424" fill="#0F172A" font-size="24" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
+    BOM / 표준 투입량 조회
+  </text>
+  <text x="640" y="450" fill="#475569" font-size="18" font-family="Inter, Pretendard, Arial, sans-serif">
+    품목별 기준 소요량, 공정별 사용 정책 확인
+  </text>
+
+  <rect x="610" y="480" width="380" height="128" rx="18" fill="#FFFFFF" stroke="#BFDBFE"/>
+  <text x="640" y="528" fill="#0F172A" font-size="24" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
+    자재 소요량 역산
+  </text>
+  <text x="640" y="562" fill="#475569" font-size="20" font-family="Inter, Pretendard, Arial, sans-serif">
+    자재 A = 1,000 × 0.8 = 800 ea
+  </text>
+  <text x="640" y="592" fill="#475569" font-size="20" font-family="Inter, Pretendard, Arial, sans-serif">
+    자재 B = 1,000 × 0.3 = 300 ea
+  </text>
+
+  <rect x="610" y="630" width="380" height="56" rx="16" fill="#1D4ED8"/>
+  <text x="800" y="666" text-anchor="middle" fill="#FFFFFF" font-size="20" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
+    사람이 아닌 시스템이 소모량을 계산
+  </text>
+
+  <path d="M1060 440H1140" stroke="#EA580C" stroke-width="8" stroke-linecap="round" marker-end="url(#arrowOrange)"/>
+  <text x="1065" y="410" fill="#EA580C" font-size="18" font-weight="600" font-family="Inter, Pretendard, Arial, sans-serif">
+    정합성 유지
+  </text>
+
+  <rect x="1160" y="180" width="360" height="520" rx="28" fill="url(#outputCard)" stroke="#FDBA74" stroke-width="2" filter="url(#shadow)"/>
+  <text x="1200" y="250" fill="#C2410C" font-size="28" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
+    3. 처리 결과
+  </text>
+
+  <rect x="1200" y="286" width="280" height="98" rx="20" fill="#FFFFFF" stroke="#FED7AA"/>
+  <text x="1230" y="334" fill="#0F172A" font-size="24" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
+    MES 생산실적 처리
+  </text>
+  <text x="1230" y="364" fill="#64748B" font-size="18" font-family="Inter, Pretendard, Arial, sans-serif">
+    완성품 수량 반영
+  </text>
+
+  <rect x="1200" y="404" width="280" height="98" rx="20" fill="#FFFFFF" stroke="#FED7AA"/>
+  <text x="1230" y="452" fill="#0F172A" font-size="24" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
+    자재 수불 처리
+  </text>
+  <text x="1230" y="482" fill="#64748B" font-size="18" font-family="Inter, Pretendard, Arial, sans-serif">
+    불출 / 사용 / 환입 기준 일치
+  </text>
+
+  <rect x="1200" y="522" width="280" height="134" rx="20" fill="#FFF7ED" stroke="#FDBA74" stroke-dasharray="8 8"/>
+  <text x="1230" y="566" fill="#9A3412" font-size="22" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
+    ERP 연계 데이터 생성
+  </text>
+  <text x="1230" y="602" fill="#7C2D12" font-size="18" font-family="Inter, Pretendard, Arial, sans-serif">
+    - 완성품 보고
+  </text>
+  <text x="1230" y="632" fill="#7C2D12" font-size="18" font-family="Inter, Pretendard, Arial, sans-serif">
+    - 자재 사용량 보고
+  </text>
+
+  <rect x="80" y="760" width="1440" height="92" rx="24" fill="#0F172A"/>
+  <text x="800" y="815" text-anchor="middle" fill="#FFFFFF" font-size="28" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
+    현업 입력은 단순화하고, 시스템은 자재 수불 정합성을 유지하도록 백플러시 방식 적용
+  </text>
+</svg>
