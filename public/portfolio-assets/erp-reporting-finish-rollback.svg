@@ -2,118 +2,178 @@
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1600" y2="920" gradientUnits="userSpaceOnUse">
       <stop stop-color="#F8FAFC"/>
-      <stop offset="1" stop-color="#F8FAFC"/>
+      <stop offset="1" stop-color="#EEF2F7"/>
     </linearGradient>
-    <marker id="arrowGray" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="10" markerHeight="10" orient="auto">
-      <path d="M1 1L10 6L1 11V1Z" fill="#64748B"/>
-    </marker>
-    <marker id="arrowGreen" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="10" markerHeight="10" orient="auto">
-      <path d="M1 1L10 6L1 11V1Z" fill="#16A34A"/>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="14" stdDeviation="20" flood-color="#0F172A" flood-opacity="0.08"/>
+    </filter>
+    <marker id="arrowSlate" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="10" markerHeight="10" orient="auto">
+      <path d="M1 1L10 6L1 11V1Z" fill="#475569"/>
     </marker>
     <marker id="arrowRed" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="10" markerHeight="10" orient="auto">
       <path d="M1 1L10 6L1 11V1Z" fill="#DC2626"/>
     </marker>
-    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="12" stdDeviation="18" flood-color="#0F172A" flood-opacity="0.08"/>
-    </filter>
+    <marker id="arrowViolet" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="10" markerHeight="10" orient="auto">
+      <path d="M1 1L10 6L1 11V1Z" fill="#7C3AED"/>
+    </marker>
   </defs>
 
   <rect width="1600" height="920" fill="url(#bg)"/>
 
-  <text x="80" y="92" fill="#0F172A" font-size="38" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
-    Reporting / Finish / Rollback 보상 흐름
+  <text x="80" y="88" fill="#0F172A" font-size="38" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
+    Reporting / Comp / Finish 정합성 보상 흐름
   </text>
-  <text x="80" y="132" fill="#475569" font-size="20" font-weight="500" font-family="Inter, Pretendard, Arial, sans-serif">
-    완성품 보고와 자재 사용량 보고를 분리하고, Finish 중 일부 자재만 반영된 상태에서 실패하면 Rollback으로 정합성을 복원
-  </text>
-
-  <rect x="80" y="180" width="660" height="620" rx="30" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2" filter="url(#shadow)"/>
-  <text x="120" y="236" fill="#0F172A" font-size="28" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
-    정상 / 실패 인식 흐름
+  <text x="80" y="128" fill="#475569" font-size="20" font-weight="500" font-family="Inter, Pretendard, Arial, sans-serif">
+    자재별 finish 중 하나라도 실패하면 전체 생산 마감은 실패로 보고, 이미 성공한 마감 처리까지 롤백합니다.
   </text>
 
-  <line x1="180" y1="300" x2="180" y2="740" stroke="#94A3B8" stroke-width="3" stroke-dasharray="10 10"/>
-  <line x1="540" y1="300" x2="540" y2="740" stroke="#94A3B8" stroke-width="3" stroke-dasharray="10 10"/>
-  <text x="180" y="282" text-anchor="middle" fill="#334155" font-size="22" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
-    MES
+  <rect x="80" y="158" width="1440" height="76" rx="22" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2"/>
+  <rect x="110" y="180" width="330" height="32" rx="16" fill="#DCFCE7"/>
+  <text x="275" y="202" text-anchor="middle" fill="#166534" font-size="17" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
+    reporting = 생산품 보고
   </text>
-  <text x="540" y="282" text-anchor="middle" fill="#334155" font-size="22" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
-    ERP
+  <rect x="468" y="180" width="360" height="32" rx="16" fill="#E0F2FE"/>
+  <text x="648" y="202" text-anchor="middle" fill="#075985" font-size="17" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
+    comp = 생산품에 소모된 자재 보고
   </text>
-
-  <rect x="110" y="326" width="140" height="54" rx="16" fill="#E2E8F0"/>
-  <text x="180" y="360" text-anchor="middle" fill="#0F172A" font-size="18" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
-    POP 마감
+  <rect x="856" y="180" width="350" height="32" rx="16" fill="#FFEDD5"/>
+  <text x="1031" y="202" text-anchor="middle" fill="#9A3412" font-size="17" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
+    finish = 자재별 마감 처리
   </text>
-
-  <path d="M240 410H480" stroke="#16A34A" stroke-width="6" stroke-linecap="round" marker-end="url(#arrowGreen)"/>
-  <rect x="270" y="382" width="170" height="54" rx="16" fill="#DCFCE7"/>
-  <text x="355" y="416" text-anchor="middle" fill="#166534" font-size="18" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
-    Reporting
-  </text>
-  <text x="260" y="466" fill="#475569" font-size="18" font-family="Inter, Pretendard, Arial, sans-serif">
-    완성품 보고 성공
+  <rect x="1234" y="180" width="256" height="32" rx="16" fill="#FEE2E2"/>
+  <text x="1362" y="202" text-anchor="middle" fill="#991B1B" font-size="17" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
+    rollback = 성공분 취소
   </text>
 
-  <path d="M480 520H240" stroke="#64748B" stroke-width="6" stroke-linecap="round" marker-end="url(#arrowGray)"/>
-  <rect x="275" y="492" width="170" height="54" rx="16" fill="#E0F2FE"/>
-  <text x="360" y="526" text-anchor="middle" fill="#0C4A6E" font-size="18" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
-    Finish 시작
+  <rect x="80" y="274" width="450" height="496" rx="28" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2" filter="url(#shadow)"/>
+  <text x="120" y="328" fill="#0F172A" font-size="28" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
+    문제 상황
   </text>
-  <text x="250" y="576" fill="#475569" font-size="18" font-family="Inter, Pretendard, Arial, sans-serif">
-    자재 사용량 보고 단계 진입
-  </text>
-
-  <rect x="320" y="610" width="360" height="132" rx="22" fill="#FFF7ED" stroke="#FDBA74" stroke-width="2"/>
-  <text x="350" y="652" fill="#9A3412" font-size="22" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
-    Finish 도중 부분 실패
-  </text>
-  <text x="350" y="688" fill="#7C2D12" font-size="18" font-family="Inter, Pretendard, Arial, sans-serif">
-    자재 A: 성공
-  </text>
-  <text x="350" y="716" fill="#7C2D12" font-size="18" font-family="Inter, Pretendard, Arial, sans-serif">
-    자재 B: 성공
-  </text>
-  <text x="350" y="744" fill="#DC2626" font-size="18" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
-    자재 C: 실패 → 정합성 깨질 수 있음
+  <text x="120" y="360" fill="#64748B" font-size="18" font-weight="600" font-family="Inter, Pretendard, Arial, sans-serif">
+    부분 마감처럼 보이는 상태
   </text>
 
-  <rect x="800" y="180" width="720" height="620" rx="30" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2" filter="url(#shadow)"/>
-  <text x="840" y="236" fill="#0F172A" font-size="28" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
-    보상 로직 설계
+  <rect x="120" y="396" width="370" height="56" rx="18" fill="#F0FDF4" stroke="#86EFAC"/>
+  <text x="144" y="431" fill="#166534" font-size="20" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
+    1. reporting 성공
+  </text>
+  <text x="346" y="431" fill="#166534" font-size="17" font-weight="600" font-family="Inter, Pretendard, Arial, sans-serif">
+    생산품 보고 완료
   </text>
 
-  <rect x="840" y="286" width="640" height="120" rx="24" fill="#EEF2FF" stroke="#A5B4FC"/>
-  <text x="880" y="336" fill="#3730A3" font-size="24" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
-    1. 상태를 나눠서 관리
+  <path d="M305 458V492" stroke="#475569" stroke-width="4" stroke-linecap="round" marker-end="url(#arrowSlate)"/>
+
+  <rect x="120" y="500" width="370" height="56" rx="18" fill="#EFF6FF" stroke="#93C5FD"/>
+  <text x="144" y="535" fill="#1D4ED8" font-size="20" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
+    2. comp 성공
   </text>
-  <text x="880" y="372" fill="#4338CA" font-size="18" font-family="Inter, Pretendard, Arial, sans-serif">
-    Reporting = 완성품 보고, Finish = 자재 사용량 보고, Rollback = 성공분 역보정
+  <text x="316" y="535" fill="#1D4ED8" font-size="17" font-weight="600" font-family="Inter, Pretendard, Arial, sans-serif">
+    자재 소모 보고 완료
   </text>
 
-  <rect x="840" y="430" width="640" height="142" rx="24" fill="#FEF2F2" stroke="#FCA5A5"/>
-  <text x="880" y="480" fill="#991B1B" font-size="24" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
-    2. 부분 성공분을 식별
+  <path d="M305 562V596" stroke="#475569" stroke-width="4" stroke-linecap="round" marker-end="url(#arrowSlate)"/>
+
+  <rect x="120" y="604" width="370" height="104" rx="20" fill="#FFF7ED" stroke="#FDBA74"/>
+  <text x="144" y="640" fill="#9A3412" font-size="20" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
+    3. finish 일부 성공
   </text>
-  <text x="880" y="516" fill="#7F1D1D" font-size="18" font-family="Inter, Pretendard, Arial, sans-serif">
-    Finish 중 이미 ERP에 반영된 자재 사용량만 추적
+  <text x="144" y="674" fill="#166534" font-size="17" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
+    자재 A/B는 마감으로 보임
   </text>
-  <text x="880" y="546" fill="#7F1D1D" font-size="18" font-family="Inter, Pretendard, Arial, sans-serif">
-    실패 시점 이후 미반영 건과 구분해서 보상 대상으로 선정
+  <text x="144" y="698" fill="#B91C1C" font-size="17" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
+    자재 C 실패 → 실제로는 전체 미마감
   </text>
 
-  <path d="M1160 584V666" stroke="#DC2626" stroke-width="7" stroke-linecap="round" marker-end="url(#arrowRed)"/>
-
-  <rect x="840" y="666" width="640" height="94" rx="24" fill="#F5F3FF" stroke="#C4B5FD"/>
-  <text x="880" y="720" fill="#6D28D9" font-size="24" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
-    3. Rollback으로 정합성 복원
-  </text>
-  <text x="880" y="748" fill="#6B21A8" font-size="18" font-family="Inter, Pretendard, Arial, sans-serif">
-    성공했던 자재 A/B 사용량을 되돌리고 MES 상태도 재처리 가능 상태로 복구
+  <rect x="120" y="722" width="370" height="26" rx="13" fill="#FEE2E2"/>
+  <text x="305" y="742" text-anchor="middle" fill="#991B1B" font-size="15" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
+    사용자는 부분 마감을 완료로 오해할 수 있음
   </text>
 
-  <rect x="80" y="836" width="1440" height="48" rx="18" fill="#0F172A"/>
-  <text x="800" y="867" text-anchor="middle" fill="#FFFFFF" font-size="20" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
-    일부 자재만 ERP에 반영된 상태에서 실패해도, Rollback 보상 로직으로 MES와 ERP의 데이터 정합성을 다시 맞춤
+  <path d="M536 522H566" stroke="#475569" stroke-width="5" stroke-linecap="round" marker-end="url(#arrowSlate)"/>
+
+  <rect x="575" y="274" width="450" height="496" rx="28" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2" filter="url(#shadow)"/>
+  <text x="615" y="328" fill="#0F172A" font-size="28" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
+    자재별 finish 결과
+  </text>
+  <text x="615" y="360" fill="#64748B" font-size="18" font-weight="600" font-family="Inter, Pretendard, Arial, sans-serif">
+    한 건이라도 실패하면 전체 생산 마감 실패
+  </text>
+
+  <rect x="615" y="398" width="370" height="74" rx="20" fill="#F0FDF4" stroke="#86EFAC" stroke-width="2"/>
+  <circle cx="650" cy="435" r="16" fill="#16A34A"/>
+  <path d="M642 434L648 440L660 426" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="684" y="430" fill="#166534" font-size="21" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
+    자재 A finish 성공
+  </text>
+  <text x="684" y="456" fill="#166534" font-size="16" font-weight="600" font-family="Inter, Pretendard, Arial, sans-serif">
+    ERP에는 마감 처리로 표시
+  </text>
+
+  <rect x="615" y="492" width="370" height="74" rx="20" fill="#F0FDF4" stroke="#86EFAC" stroke-width="2"/>
+  <circle cx="650" cy="529" r="16" fill="#16A34A"/>
+  <path d="M642 528L648 534L660 520" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="684" y="524" fill="#166534" font-size="21" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
+    자재 B finish 성공
+  </text>
+  <text x="684" y="550" fill="#166534" font-size="16" font-weight="600" font-family="Inter, Pretendard, Arial, sans-serif">
+    ERP에는 마감 처리로 표시
+  </text>
+
+  <rect x="615" y="586" width="370" height="74" rx="20" fill="#FEF2F2" stroke="#FCA5A5" stroke-width="2"/>
+  <circle cx="650" cy="623" r="16" fill="#DC2626"/>
+  <path d="M642 615L658 631M658 615L642 631" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
+  <text x="684" y="618" fill="#991B1B" font-size="21" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
+    자재 C finish 실패
+  </text>
+  <text x="684" y="644" fill="#991B1B" font-size="16" font-weight="600" font-family="Inter, Pretendard, Arial, sans-serif">
+    전체 생산은 아직 마감 아님
+  </text>
+
+  <rect x="615" y="684" width="370" height="58" rx="18" fill="#0F172A"/>
+  <text x="800" y="720" text-anchor="middle" fill="#FFFFFF" font-size="19" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
+    부분 성공은 전체 성공이 아니다
+  </text>
+
+  <path d="M1032 522H1062" stroke="#DC2626" stroke-width="5" stroke-linecap="round" marker-end="url(#arrowRed)"/>
+
+  <rect x="1070" y="274" width="450" height="496" rx="28" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2" filter="url(#shadow)"/>
+  <text x="1110" y="328" fill="#0F172A" font-size="28" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
+    개선 흐름
+  </text>
+  <text x="1110" y="360" fill="#64748B" font-size="18" font-weight="600" font-family="Inter, Pretendard, Arial, sans-serif">
+    성공분 롤백 + 전체 마감 기준 보장
+  </text>
+
+  <rect x="1110" y="398" width="370" height="70" rx="20" fill="#FEF2F2" stroke="#FCA5A5"/>
+  <text x="1140" y="432" fill="#991B1B" font-size="21" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
+    1. 실패 감지
+  </text>
+  <text x="1140" y="456" fill="#7F1D1D" font-size="16" font-weight="600" font-family="Inter, Pretendard, Arial, sans-serif">
+    자재 C finish 실패를 전체 작업 실패로 판단
+  </text>
+
+  <path d="M1295 474V504" stroke="#7C3AED" stroke-width="4" stroke-linecap="round" marker-end="url(#arrowViolet)"/>
+
+  <rect x="1110" y="512" width="370" height="82" rx="20" fill="#F5F3FF" stroke="#C4B5FD"/>
+  <text x="1140" y="546" fill="#6D28D9" font-size="21" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
+    2. 성공분 식별
+  </text>
+  <text x="1140" y="570" fill="#5B21B6" font-size="16" font-weight="600" font-family="Inter, Pretendard, Arial, sans-serif">
+    이미 마감된 자재 A/B를 보상 대상으로 기록
+  </text>
+
+  <path d="M1295 600V630" stroke="#7C3AED" stroke-width="4" stroke-linecap="round" marker-end="url(#arrowViolet)"/>
+
+  <rect x="1110" y="638" width="370" height="86" rx="20" fill="#ECFDF5" stroke="#86EFAC"/>
+  <text x="1140" y="672" fill="#047857" font-size="21" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
+    3. 롤백 후 재처리 가능
+  </text>
+  <text x="1140" y="696" fill="#065F46" font-size="16" font-weight="600" font-family="Inter, Pretendard, Arial, sans-serif">
+    A/B 마감도 취소하고 전체 상태를 미마감으로 맞춤
+  </text>
+
+  <rect x="80" y="814" width="1440" height="58" rx="20" fill="#0F172A"/>
+  <text x="800" y="849" text-anchor="middle" fill="#FFFFFF" font-size="21" font-weight="700" font-family="Inter, Pretendard, Arial, sans-serif">
+    하나라도 실패하면 전체 생산 마감은 실패로 보고, 이미 마감된 자재도 롤백해 정합성을 맞춤
   </text>
 </svg>
