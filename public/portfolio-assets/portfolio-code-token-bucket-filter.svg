@@ -1,6 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="920" height="1400" viewBox="0 0 920 1400" role="img" aria-labelledby="title desc">
   <title id="title">DashboardRateLimitFilter Kotlin code</title>
-  <desc id="desc">Full Kotlin code example for Bucket4j Token Bucket rate limiting in a Spring OncePerRequestFilter.</desc>
+  <desc id="desc">Syntax highlighted Kotlin code example for Bucket4j Token Bucket rate limiting in a Spring OncePerRequestFilter.</desc>
+  <style>
+    .code { font: 16px SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; fill: #0F172A; }
+    .ln { font: 13px SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; fill: #94A3B8; text-anchor: end; }
+    .kw { fill: #2563EB; font-weight: 700; }
+    .type { fill: #7C3AED; font-weight: 700; }
+    .fn { fill: #059669; font-weight: 700; }
+    .str { fill: #B45309; }
+    .num { fill: #DC2626; font-weight: 700; }
+    .prop { fill: #0F766E; }
+    .dim { fill: #64748B; }
+  </style>
   <rect width="920" height="1400" rx="18" fill="#F8FAFC"/>
   <rect x="16" y="16" width="888" height="1368" rx="14" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
   <rect x="16" y="16" width="888" height="42" rx="14" fill="#F1F5F9"/>
@@ -9,62 +20,72 @@
   <circle cx="60" cy="37" r="5" fill="#F59E0B"/>
   <circle cx="78" cy="37" r="5" fill="#22C55E"/>
   <text x="106" y="43" fill="#334155" font-size="15" font-weight="700" font-family="SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace">DashboardRateLimitFilter.kt</text>
-  <text x="44" y="92" fill="#0F172A" font-size="18" font-family="SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" xml:space="preserve">
-    <tspan x="44" dy="0">class DashboardRateLimitFilter : OncePerRequestFilter() {</tspan>
-    <tspan x="44" dy="27"></tspan>
-    <tspan x="44" dy="27">    private val buckets = ConcurrentHashMap&lt;String, Bucket&gt;()</tspan>
-    <tspan x="44" dy="27"></tspan>
-    <tspan x="44" dy="27">    override fun doFilterInternal(</tspan>
-    <tspan x="44" dy="27">        request: HttpServletRequest,</tspan>
-    <tspan x="44" dy="27">        response: HttpServletResponse,</tspan>
-    <tspan x="44" dy="27">        chain: FilterChain</tspan>
-    <tspan x="44" dy="27">    ) {</tspan>
-    <tspan x="44" dy="27">        if (request.method != "GET" ||</tspan>
-    <tspan x="44" dy="27">            !request.requestURI.startsWith(</tspan>
-    <tspan x="44" dy="27">                "/api/dashboard/latest"</tspan>
-    <tspan x="44" dy="27">            )</tspan>
-    <tspan x="44" dy="27">        ) {</tspan>
-    <tspan x="44" dy="27">            chain.doFilter(request, response)</tspan>
-    <tspan x="44" dy="27">            return</tspan>
-    <tspan x="44" dy="27">        }</tspan>
-    <tspan x="44" dy="27"></tspan>
-    <tspan x="44" dy="27">        val userKey = SecurityContextHolder.getContext()</tspan>
-    <tspan x="44" dy="27">            .authentication</tspan>
-    <tspan x="44" dy="27">            ?.name</tspan>
-    <tspan x="44" dy="27">            ?: request.remoteAddr</tspan>
-    <tspan x="44" dy="27"></tspan>
-    <tspan x="44" dy="27">        val bucketKey = "$userKey:${request.requestURI}"</tspan>
-    <tspan x="44" dy="27">        val bucket = buckets.computeIfAbsent(bucketKey) { createBucket() }</tspan>
-    <tspan x="44" dy="27"></tspan>
-    <tspan x="44" dy="27">        if (!bucket.tryConsume(1)) {</tspan>
-    <tspan x="44" dy="27">            response.status = 429</tspan>
-    <tspan x="44" dy="27">            response.contentType = "application/json;charset=UTF-8"</tspan>
-    <tspan x="44" dy="27">            response.writer.write(</tspan>
-    <tspan x="44" dy="27" font-size="15">                """{"message":"잠시 후 다시 조회해주세요.","code":"TOO_MANY_REQUESTS"}"""</tspan>
-    <tspan x="44" dy="27">            )</tspan>
-    <tspan x="44" dy="27">            return</tspan>
-    <tspan x="44" dy="27">        }</tspan>
-    <tspan x="44" dy="27"></tspan>
-    <tspan x="44" dy="27">        chain.doFilter(request, response)</tspan>
-    <tspan x="44" dy="27">    }</tspan>
-    <tspan x="44" dy="27"></tspan>
-    <tspan x="44" dy="27">    private fun createBucket(): Bucket {</tspan>
-    <tspan x="44" dy="27">        val nextMinute = ZonedDateTime.now()</tspan>
-    <tspan x="44" dy="27">            .truncatedTo(ChronoUnit.MINUTES)</tspan>
-    <tspan x="44" dy="27">            .plusMinutes(1)</tspan>
-    <tspan x="44" dy="27">            .toInstant()</tspan>
-    <tspan x="44" dy="27"></tspan>
-    <tspan x="44" dy="27">        return Bucket.builder()</tspan>
-    <tspan x="44" dy="27">            .addLimit { limit -&gt;</tspan>
-    <tspan x="44" dy="27">                limit.capacity(1)</tspan>
-    <tspan x="44" dy="27">                    .refillIntervallyAligned(</tspan>
-    <tspan x="44" dy="27">                        1,</tspan>
-    <tspan x="44" dy="27">                        Duration.ofMinutes(1),</tspan>
-    <tspan x="44" dy="27">                        nextMinute</tspan>
-    <tspan x="44" dy="27">                    )</tspan>
-    <tspan x="44" dy="27">            }</tspan>
-    <tspan x="44" dy="27">            .build()</tspan>
-    <tspan x="44" dy="27">    }</tspan>
-    <tspan x="44" dy="27">}</tspan>
+
+  <text class="ln" x="64" y="92">
+    <tspan x="64" dy="0">1</tspan><tspan x="64" dy="23">2</tspan><tspan x="64" dy="23">3</tspan><tspan x="64" dy="23">4</tspan>
+    <tspan x="64" dy="23">5</tspan><tspan x="64" dy="23">6</tspan><tspan x="64" dy="23">7</tspan><tspan x="64" dy="23">8</tspan>
+    <tspan x="64" dy="23">9</tspan><tspan x="64" dy="23">10</tspan><tspan x="64" dy="23">11</tspan><tspan x="64" dy="23">12</tspan>
+    <tspan x="64" dy="23">13</tspan><tspan x="64" dy="23">14</tspan><tspan x="64" dy="23">15</tspan><tspan x="64" dy="23">16</tspan>
+    <tspan x="64" dy="23">17</tspan><tspan x="64" dy="23">18</tspan><tspan x="64" dy="23">19</tspan><tspan x="64" dy="23">20</tspan>
+    <tspan x="64" dy="23">21</tspan><tspan x="64" dy="23">22</tspan><tspan x="64" dy="23">23</tspan><tspan x="64" dy="23">24</tspan>
+    <tspan x="64" dy="23">25</tspan><tspan x="64" dy="23">26</tspan><tspan x="64" dy="23">27</tspan><tspan x="64" dy="23">28</tspan>
+    <tspan x="64" dy="23">29</tspan><tspan x="64" dy="23">30</tspan><tspan x="64" dy="23">31</tspan><tspan x="64" dy="23">32</tspan>
+    <tspan x="64" dy="23">33</tspan><tspan x="64" dy="23">34</tspan><tspan x="64" dy="23">35</tspan><tspan x="64" dy="23">36</tspan>
+    <tspan x="64" dy="23">37</tspan><tspan x="64" dy="23">38</tspan><tspan x="64" dy="23">39</tspan><tspan x="64" dy="23">40</tspan>
+    <tspan x="64" dy="23">41</tspan><tspan x="64" dy="23">42</tspan><tspan x="64" dy="23">43</tspan><tspan x="64" dy="23">44</tspan>
+    <tspan x="64" dy="23">45</tspan><tspan x="64" dy="23">46</tspan><tspan x="64" dy="23">47</tspan><tspan x="64" dy="23">48</tspan>
+    <tspan x="64" dy="23">49</tspan><tspan x="64" dy="23">50</tspan><tspan x="64" dy="23">51</tspan><tspan x="64" dy="23">52</tspan>
+    <tspan x="64" dy="23">53</tspan><tspan x="64" dy="23">54</tspan><tspan x="64" dy="23">55</tspan><tspan x="64" dy="23">56</tspan>
   </text>
+
+  <g xml:space="preserve">
+  <text class="code" x="92" y="92"><tspan class="kw">class</tspan> DashboardRateLimitFilter : <tspan class="type">OncePerRequestFilter</tspan>() {</text>
+  <text class="code" x="124" y="138"><tspan class="kw">private val</tspan> buckets = <tspan class="type">ConcurrentHashMap</tspan>&lt;<tspan class="type">String</tspan>, <tspan class="type">Bucket</tspan>&gt;()</text>
+  <text class="code" x="124" y="184"><tspan class="kw">override fun</tspan> <tspan class="fn">doFilterInternal</tspan>(</text>
+  <text class="code" x="156" y="207">request: <tspan class="type">HttpServletRequest</tspan>,</text>
+  <text class="code" x="156" y="230">response: <tspan class="type">HttpServletResponse</tspan>,</text>
+  <text class="code" x="156" y="253">chain: <tspan class="type">FilterChain</tspan></text>
+  <text class="code" x="124" y="276">) {</text>
+  <text class="code" x="156" y="299"><tspan class="kw">if</tspan> (request.<tspan class="prop">method</tspan> != <tspan class="str">"GET"</tspan> ||</text>
+  <text class="code" x="188" y="322">!request.<tspan class="prop">requestURI</tspan>.<tspan class="fn">startsWith</tspan>(</text>
+  <text class="code" x="220" y="345"><tspan class="str">"/api/dashboard/latest"</tspan></text>
+  <text class="code" x="188" y="368">)</text>
+  <text class="code" x="156" y="391">) {</text>
+  <text class="code" x="188" y="414">chain.<tspan class="fn">doFilter</tspan>(request, response)</text>
+  <text class="code" x="188" y="437"><tspan class="kw">return</tspan></text>
+  <text class="code" x="156" y="460">}</text>
+  <text class="code" x="156" y="506"><tspan class="kw">val</tspan> userKey = <tspan class="type">SecurityContextHolder</tspan>.<tspan class="fn">getContext</tspan>()</text>
+  <text class="code" x="188" y="529">.<tspan class="prop">authentication</tspan></text>
+  <text class="code" x="188" y="552">?.<tspan class="prop">name</tspan></text>
+  <text class="code" x="188" y="575">?: request.<tspan class="prop">remoteAddr</tspan></text>
+  <text class="code" x="156" y="621"><tspan class="kw">val</tspan> bucketKey = <tspan class="str">"$userKey:${request.requestURI}"</tspan></text>
+  <text class="code" x="156" y="644"><tspan class="kw">val</tspan> bucket = buckets.<tspan class="fn">computeIfAbsent</tspan>(bucketKey) { <tspan class="fn">createBucket</tspan>() }</text>
+  <text class="code" x="156" y="690"><tspan class="kw">if</tspan> (!bucket.<tspan class="fn">tryConsume</tspan>(<tspan class="num">1</tspan>)) {</text>
+  <text class="code" x="188" y="713">response.<tspan class="prop">status</tspan> = <tspan class="num">429</tspan></text>
+  <text class="code" x="188" y="736">response.<tspan class="prop">contentType</tspan> = <tspan class="str">"application/json;charset=UTF-8"</tspan></text>
+  <text class="code" x="188" y="759">response.<tspan class="prop">writer</tspan>.<tspan class="fn">write</tspan>(</text>
+  <text class="code" x="220" y="782" font-size="13.5"><tspan class="str">"""{"message":"잠시 후 다시 조회해주세요.","code":"TOO_MANY_REQUESTS"}"""</tspan></text>
+  <text class="code" x="188" y="805">)</text>
+  <text class="code" x="188" y="828"><tspan class="kw">return</tspan></text>
+  <text class="code" x="156" y="851">}</text>
+  <text class="code" x="156" y="897">chain.<tspan class="fn">doFilter</tspan>(request, response)</text>
+  <text class="code" x="124" y="920">}</text>
+  <text class="code" x="124" y="966"><tspan class="kw">private fun</tspan> <tspan class="fn">createBucket</tspan>(): <tspan class="type">Bucket</tspan> {</text>
+  <text class="code" x="156" y="989"><tspan class="kw">val</tspan> nextMinute = <tspan class="type">ZonedDateTime</tspan>.<tspan class="fn">now</tspan>()</text>
+  <text class="code" x="188" y="1012">.<tspan class="fn">truncatedTo</tspan>(<tspan class="type">ChronoUnit</tspan>.<tspan class="prop">MINUTES</tspan>)</text>
+  <text class="code" x="188" y="1035">.<tspan class="fn">plusMinutes</tspan>(<tspan class="num">1</tspan>)</text>
+  <text class="code" x="188" y="1058">.<tspan class="fn">toInstant</tspan>()</text>
+  <text class="code" x="156" y="1104"><tspan class="kw">return</tspan> <tspan class="type">Bucket</tspan>.<tspan class="fn">builder</tspan>()</text>
+  <text class="code" x="188" y="1127">.<tspan class="fn">addLimit</tspan> { limit -&gt;</text>
+  <text class="code" x="220" y="1150">limit.<tspan class="fn">capacity</tspan>(<tspan class="num">1</tspan>)</text>
+  <text class="code" x="252" y="1173">.<tspan class="fn">refillIntervallyAligned</tspan>(</text>
+  <text class="code" x="284" y="1196"><tspan class="num">1</tspan>,</text>
+  <text class="code" x="284" y="1219"><tspan class="type">Duration</tspan>.<tspan class="fn">ofMinutes</tspan>(<tspan class="num">1</tspan>),</text>
+  <text class="code" x="284" y="1242">nextMinute</text>
+  <text class="code" x="252" y="1265">)</text>
+  <text class="code" x="188" y="1288">}</text>
+  <text class="code" x="188" y="1311">.<tspan class="fn">build</tspan>()</text>
+  <text class="code" x="124" y="1334">}</text>
+  <text class="code" x="92" y="1357">}</text>
+  </g>
 </svg>
